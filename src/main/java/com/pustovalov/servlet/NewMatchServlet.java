@@ -1,9 +1,11 @@
 package com.pustovalov.servlet;
 
+import com.pustovalov.entity.Match;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.hibernate.query.criteria.JpaCriteriaQuery;
 
 import java.io.IOException;
 
