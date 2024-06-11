@@ -13,7 +13,7 @@
         <property name="format_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">create</property>
 
-        <mapping class="com.pustovalov.entities.Match"/>
-        <mapping class="com.pustovalov.entities.Player"/>
+        <mapping class="com.pustovalov.entity.Match"/>
+        <mapping class="com.pustovalov.entity.Player"/>
     </session-factory>
 </hibernate-configuration>
