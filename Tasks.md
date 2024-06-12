@@ -10,3 +10,4 @@
 9.  implement page display using jsp
 10.  deal with redirects
 11. implement a redirect to /match-score
+12. Add a file describing the problems encountered while writing the project and their solutions
