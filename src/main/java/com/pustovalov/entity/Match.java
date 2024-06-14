@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -30,5 +32,13 @@ public class Match {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "WINNER")
     private Player winner;
+
+    private UUID externalId;
+
+    public Match(UUID externalId, Player playerOne, Player playerTwo) {
+        this.externalId = externalId;
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
+    }
 
 }
