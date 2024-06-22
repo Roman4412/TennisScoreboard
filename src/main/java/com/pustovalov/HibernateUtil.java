@@ -15,8 +15,8 @@ public final class HibernateUtil {
             Configuration configuration = new Configuration();
             configuration.configure();
             sessionFactory = configuration.buildSessionFactory();
+
         }
         return sessionFactory;
     }
-
 }
