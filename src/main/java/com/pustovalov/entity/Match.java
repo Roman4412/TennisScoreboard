@@ -33,12 +33,17 @@ public class Match {
     @JoinColumn(name = "WINNER")
     private Player winner;
 
+    @Transient
     private UUID externalId;
 
-    public Match(UUID externalId, Player playerOne, Player playerTwo) {
+    @Transient
+    private GameScore score;
+
+    public Match(UUID externalId, Player playerOne, Player playerTwo, GameScore score) {
         this.externalId = externalId;
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
+        this.score = score;
     }
 
 }

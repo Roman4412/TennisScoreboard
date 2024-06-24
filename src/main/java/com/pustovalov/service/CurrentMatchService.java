@@ -1,6 +1,7 @@
 package com.pustovalov.service;
 
 import com.pustovalov.dao.PlayerDao;
+import com.pustovalov.entity.GameScore;
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.Player;
 
@@ -20,7 +21,7 @@ public class CurrentMatchService {
         Player playerTwo = playerDao.findByName(playerTwoName)
                 .orElse(playerDao.save(new Player(playerTwoName)));
 
-        Match match = new Match(UUID.randomUUID(), playerOne, playerTwo);
+        Match match = new Match(UUID.randomUUID(), playerOne, playerTwo, new GameScore());
         currentMatches.put(match.getExternalId(), match);
         return match;
     }
