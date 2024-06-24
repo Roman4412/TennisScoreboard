@@ -15,14 +15,18 @@ public class NewMatchServlet extends BaseServlet {
     CurrentMatchService currentMatchService = new CurrentMatchService();
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("WEB-INF/jsp/new-match.jsp").forward(req,resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, String> params = getParamsFromBody(req);
         String playerOneName = params.get("player-one-name");
         String playerTwoName = params.get("player-two-name");
         //validateStringParams(playerOneName, playerTwoName);
         Match save = currentMatchService.save(playerOneName, playerTwoName);
-        resp.getWriter().print(save);
-        resp.setStatus(HttpServletResponse.SC_SEE_OTHER);
+        resp.sendRedirect("/match-score");
 
         //TODO редирект на /match-score?uuid=$match_id
 
