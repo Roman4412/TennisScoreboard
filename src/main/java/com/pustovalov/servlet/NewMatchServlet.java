@@ -26,7 +26,7 @@ public class NewMatchServlet extends BaseServlet {
         String playerTwoName = params.get("player-two-name");
         //validateStringParams(playerOneName, playerTwoName);
         Match save = currentMatchService.save(playerOneName, playerTwoName);
-        resp.sendRedirect("/match-score");
+        resp.sendRedirect("/match-score?uuid=" + save.getExternalId());
 
         //TODO редирект на /match-score?uuid=$match_id
 
