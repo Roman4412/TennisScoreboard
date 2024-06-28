@@ -1,0 +1,14 @@
+.name {
+    width: auto;
+    display: inline;
+}
+
+.player-info {
+    width: 200px;
+    float: left;
+
+}
+.game-unit, .point {
+    display: inline-block;
+    width: 50px;
+}
