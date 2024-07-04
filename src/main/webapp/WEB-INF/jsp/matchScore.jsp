@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: admin
-  Date: 23.06.2024
-  Time: 5:20
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -13,40 +6,40 @@
 </head>
 <body>
 <div>
-    <form action="http://localhost:8080/matchscore" method="post">
+    <form action="http://localhost:8080/match-score?uuid=${param.uuid}" method="post" name="player-number">
         <div class="score">
             <section class="player-info">
                 <div class="score-unit">
-                    <p>Player one</p>
+                    <p>${applicationScope.match.playerOne.name}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Game</p>
-                    <p class="point">0</p>
+                    <p class="point">${applicationScope.match.score.playerOnePoint}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Set</p>
-                    <p class="point">0</p>
+                    <p class="point">${applicationScope.match.score.playerOneSet}</p>
                 </div>
 
                 <div class="point-button">
-                    <button type="submit" value="player-one">Point</button>
+                    <button type="submit" value="1" name="player-number">Point</button>
                 </div>
             </section>
             <section class="player-info">
                 <div class="score-unit">
-                    <p>Player two</p>
+                    <p>${applicationScope.match.playerTwo.name}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Game</p>
-                    <p class="point">0</p>
+                    <p class="point">${applicationScope.match.score.playerTwoPoint}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Set</p>
-                    <p class="point">0</p>
+                    <p class="point">${applicationScope.match.score.playerTwoSet}</p>
                 </div>
 
                 <div class="point-button">
-                    <button type="submit" value="player-one">Point</button>
+                    <button type="submit" value="2" name="player-number">Point</button>
                 </div>
             </section>
         </div>
