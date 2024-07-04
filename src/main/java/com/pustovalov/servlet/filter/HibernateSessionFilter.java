@@ -7,22 +7,19 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.io.IOException;
-
+//TODO not for all urls
 @WebFilter("/*")
 public class HibernateSessionFilter implements Filter {
     @Override
-    public void doFilter(ServletRequest request,
-                         ServletResponse response,
-                         FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
 
         Transaction transaction = null;
-
-        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
-
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        try {
             transaction = session.beginTransaction();
             chain.doFilter(request, response);
             transaction.commit();
-
         } catch(Exception e) {
             if (transaction != null) {
                 transaction.rollback();
