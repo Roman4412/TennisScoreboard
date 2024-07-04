@@ -7,11 +7,14 @@ import lombok.Setter;
 @Setter
 public class GameScore {
 
-    private int playerOneGamePoints;
-    private int playerOneSetPoints;
-    private int playerOneTieBreakPoints;
-    private int playerTwoGamePoints;
-    private int playerTwoSetPoints;
-    private int playerTwoTieBreakPoints;
+    private int playerOnePoint;
+    private int playerOneGame;
+    private int playerOneSet;
+    private int playerOneTieBreak;
+
+    private int playerTwoPoint;
+    private int playerTwoGame;
+    private int playerTwoSet;
+    private int playerTwoTieBreak;
 
 }
