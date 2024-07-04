@@ -7,14 +7,20 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 import java.util.Optional;
 
+
 public class PlayerDao implements GenericDao<Player, Long> {
-    //TODO use the session per request pattern
-    private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    private static volatile PlayerDao instance;
+    private final SessionFactory sessionFactory;
 
     @Override
     public Player save(Player entity) {
         sessionFactory.getCurrentSession().persist(entity);
         return entity;
+    }
+
+    @Override
+    public List<Player> findAll() {
+        return null;
     }
 
     @Override
@@ -40,9 +46,17 @@ public class PlayerDao implements GenericDao<Player, Long> {
 
     }
 
-    @Override
-    public List<Player> findAll() {
-        return null;
+    public static PlayerDao getInstance() {
+        if (instance == null) {
+            synchronized(PlayerDao.class) {
+                instance = new PlayerDao(HibernateUtil.getSessionFactory());
+            }
+        }
+        return instance;
+    }
+
+    private PlayerDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
 }
