@@ -1,29 +1,53 @@
 package com.pustovalov.service;
 
+import com.pustovalov.dao.InMemoryMatchDao;
+import com.pustovalov.dao.HibernatePlayerDao;
 import com.pustovalov.dao.PlayerDao;
+import com.pustovalov.dto.CreateMatchDto;
 import com.pustovalov.entity.GameScore;
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class CurrentMatchService {
-    PlayerDao playerDao = new PlayerDao();
+    private static volatile CurrentMatchService instance;
+    private final PlayerDao hibernatePlayerDao;
+    private final InMemoryMatchDao inMemoryMatchDao;
 
-    //TODO адаптировать к многопоточке
-    Map<UUID, Match> currentMatches = new HashMap<>();
+    public Match saveInMemory(CreateMatchDto createMatchDto) {
+        Player playerOne = hibernatePlayerDao
+                .findByName(createMatchDto.playerOneName())
+                .orElse(hibernatePlayerDao.save(new Player(createMatchDto.playerOneName())));
 
-    public Match save(String playerOneName, String playerTwoName) {
-        Player playerOne = playerDao.findByName(playerOneName)
-                .orElse(playerDao.save(new Player(playerOneName)));
-        Player playerTwo = playerDao.findByName(playerTwoName)
-                .orElse(playerDao.save(new Player(playerTwoName)));
+        Player playerTwo = hibernatePlayerDao
+                .findByName(createMatchDto.playerTwoName())
+                .orElse(hibernatePlayerDao.save(new Player(createMatchDto.playerTwoName())));
 
-        Match match = new Match(UUID.randomUUID(), playerOne, playerTwo, new GameScore());
-        currentMatches.put(match.getExternalId(), match);
-        return match;
+        return inMemoryMatchDao.save(Match.builder()
+                .externalId(UUID.randomUUID())
+                .playerOne(playerOne)
+                .playerTwo(playerTwo)
+                .score(new GameScore())
+                .build());
+    }
+
+    public static CurrentMatchService getInstance() {
+        if (instance == null) {
+            synchronized(CurrentMatchService.class) {
+                if (instance == null) {
+                    instance = new CurrentMatchService(
+                            HibernatePlayerDao.getInstance(),
+                            InMemoryMatchDao.getInstance());
+                }
+            }
+        }
+        return instance;
+    }
+
+    private CurrentMatchService(PlayerDao hibernatePlayerDao, InMemoryMatchDao inMemoryMatchDao) {
+        this.hibernatePlayerDao = hibernatePlayerDao;
+        this.inMemoryMatchDao = inMemoryMatchDao;
     }
 
 }
