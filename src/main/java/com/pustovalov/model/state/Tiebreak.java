@@ -3,10 +3,6 @@ package com.pustovalov.model.state;
 import com.pustovalov.model.pojo.MatchScore;
 
 public class Tiebreak extends MatchState {
-    public Tiebreak(MatchScore matchScore) {
-        super(matchScore);
-    }
-
     @Override
     public void count(Long playerId) {
         Long opponentId = matchScore.getOpponentId(playerId);
@@ -22,6 +18,10 @@ public class Tiebreak extends MatchState {
             matchScore.changeState(new Game(matchScore));
             matchScore.countPoint(playerId);
         }
+    }
+
+    public Tiebreak(MatchScore matchScore) {
+        super(matchScore);
     }
 
 }

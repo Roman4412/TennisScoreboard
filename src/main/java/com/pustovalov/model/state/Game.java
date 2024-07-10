@@ -4,10 +4,6 @@ import com.pustovalov.model.pojo.MatchScore;
 
 public class Game extends MatchState {
 
-    public Game(MatchScore matchScore) {
-        super(matchScore);
-    }
-
     @Override
     public void count(Long playerId) {
         Long opponentId = matchScore.getOpponentId(playerId);
@@ -34,6 +30,10 @@ public class Game extends MatchState {
         } else {
             matchScore.changeState(new Point(matchScore));
         }
+    }
+
+    public Game(MatchScore matchScore) {
+        super(matchScore);
     }
 
 }

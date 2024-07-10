@@ -4,10 +4,6 @@ import com.pustovalov.model.pojo.MatchScore;
 
 public class Set extends MatchState {
 
-    public Set(MatchScore matchScore) {
-        super(matchScore);
-    }
-
     @Override
     public void count(Long playerId) {
         int playerScore = Integer.parseInt(matchScore.getPlayersScore(playerId, SET));
@@ -18,6 +14,10 @@ public class Set extends MatchState {
             throw new RuntimeException("MATCH FINISHED");
         }
         matchScore.changeState(new Point(this.matchScore));
+    }
+
+    public Set(MatchScore matchScore) {
+        super(matchScore);
     }
 
 }
