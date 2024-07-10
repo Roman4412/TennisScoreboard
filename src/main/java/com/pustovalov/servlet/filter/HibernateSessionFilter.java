@@ -1,6 +1,6 @@
 package com.pustovalov.servlet.filter;
 
-import com.pustovalov.HibernateUtil;
+import com.pustovalov.util.HibernateUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import org.hibernate.Session;

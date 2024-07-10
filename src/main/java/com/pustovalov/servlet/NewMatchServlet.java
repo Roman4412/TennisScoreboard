@@ -1,8 +1,8 @@
 package com.pustovalov.servlet;
 
-import com.pustovalov.dto.CreateMatchDto;
-import com.pustovalov.entity.Match;
-import com.pustovalov.service.CurrentMatchService;
+import com.pustovalov.model.dto.CreateMatchDto;
+import com.pustovalov.model.entity.Match;
+import com.pustovalov.model.service.CurrentMatchService;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,9 +25,9 @@ public class NewMatchServlet extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Map<String, String> params = getParamsFromBody(req);
         CreateMatchDto newMatch = new CreateMatchDto(
-                params.get("player-two-name"),
-                params.get("player-one-name")
-        );
+                params.get("player-one-name"),
+                params.get("player-two-name")
+                );
 
         Match savedMatch = currentMatchService.saveInMemory(newMatch);
         resp.sendRedirect("/match-score?uuid=" + savedMatch.getExternalId());

@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Match score</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/styles.css">
 </head>
 <body>
 <div>
@@ -10,36 +10,54 @@
         <div class="score">
             <section class="player-info">
                 <div class="score-unit">
-                    <p>${applicationScope.match.playerOne.name}</p>
+                    <p>${requestScope.match.playerOne.name}</p>
+                </div>
+                <div class="score-unit">
+                    <p class="game-unit">Point</p>
+                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerOne.id, "Point")}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Game</p>
-                    <p class="point">${applicationScope.match.score.playerOnePoint}</p>
+                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerOne.id, "Game")}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Set</p>
-                    <p class="point">${applicationScope.match.score.playerOneSet}</p>
+                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerOne.id, "Set")}</p>
+                </div>
+                <div class="score-unit">
+                    <p class="game-unit">Tiebreak</p>
+                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerOne.id,"Tiebreak")}</p>
                 </div>
 
                 <div class="point-button">
-                    <button type="submit" value="1" name="player-number">Point</button>
+                    <button type="submit" value=${requestScope.match.playerOne.id} name="player-id">Point
+                    </button>
                 </div>
             </section>
             <section class="player-info">
                 <div class="score-unit">
-                    <p>${applicationScope.match.playerTwo.name}</p>
+                    <p>${requestScope.match.playerTwo.name}</p>
+                </div>
+                <div class="score-unit">
+                    <p class="game-unit">Point</p>
+                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerTwo.id, "Point")}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Game</p>
-                    <p class="point">${applicationScope.match.score.playerTwoPoint}</p>
+                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerTwo.id, "Game")}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Set</p>
-                    <p class="point">${applicationScope.match.score.playerTwoSet}</p>
+                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerTwo.id,"Set")}</p>
+                </div>
+                <div class="score-unit">
+                    <p class="game-unit">Tiebreak</p>
+                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerTwo.id,"Tiebreak")}</p>
                 </div>
 
                 <div class="point-button">
-                    <button type="submit" value="2" name="player-number">Point</button>
+                    <button type="submit" value=${requestScope.match.playerTwo.id} name="player-id">Point
+                    </button>
                 </div>
             </section>
         </div>

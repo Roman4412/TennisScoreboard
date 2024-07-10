@@ -4,11 +4,11 @@
 }
 
 .player-info {
-    width: 200px;
+    width: 250px;
     float: left;
 
 }
 .game-unit, .point {
     display: inline-block;
-    width: 50px;
+    width: 100px;
 }

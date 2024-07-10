@@ -14,7 +14,7 @@
         <property name="hibernate.hbm2ddl.auto">create</property>
         <property name="current_session_context_class">thread</property>
 
-        <mapping class="com.pustovalov.entity.Match"/>
-        <mapping class="com.pustovalov.entity.Player"/>
+        <mapping class="com.pustovalov.model.entity.Match"/>
+        <mapping class="com.pustovalov.model.entity.Player"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,5 +1,6 @@
-package com.pustovalov.entity;
+package com.pustovalov.model.entity;
 
+import com.pustovalov.model.pojo.MatchScore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,12 +40,13 @@ public class Match {
     private UUID externalId;
 
     @Transient
-    private GameScore score;
+    private MatchScore score;
 
-    public Match(UUID externalId, Player playerOne, Player playerTwo, GameScore score) {
-        this.externalId = externalId;
+    public Match(Player playerOne, Player playerTwo, Player winner, UUID externalId, MatchScore score) {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
+        this.winner = winner;
+        this.externalId = externalId;
         this.score = score;
     }
 

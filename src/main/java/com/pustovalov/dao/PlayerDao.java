@@ -1,6 +1,6 @@
 package com.pustovalov.dao;
 
-import com.pustovalov.entity.Player;
+import com.pustovalov.model.entity.Player;
 
 import java.util.Optional;
 

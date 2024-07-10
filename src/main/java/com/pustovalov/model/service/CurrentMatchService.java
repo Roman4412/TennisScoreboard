@@ -1,12 +1,12 @@
-package com.pustovalov.service;
+package com.pustovalov.model.service;
 
-import com.pustovalov.dao.InMemoryMatchDao;
 import com.pustovalov.dao.HibernatePlayerDao;
+import com.pustovalov.dao.InMemoryMatchDao;
 import com.pustovalov.dao.PlayerDao;
-import com.pustovalov.dto.CreateMatchDto;
-import com.pustovalov.entity.GameScore;
-import com.pustovalov.entity.Match;
-import com.pustovalov.entity.Player;
+import com.pustovalov.model.dto.CreateMatchDto;
+import com.pustovalov.model.entity.Match;
+import com.pustovalov.model.pojo.MatchScore;
+import com.pustovalov.model.entity.Player;
 
 import java.util.UUID;
 
@@ -28,7 +28,7 @@ public class CurrentMatchService {
                 .externalId(UUID.randomUUID())
                 .playerOne(playerOne)
                 .playerTwo(playerTwo)
-                .score(new GameScore())
+                .score(new MatchScore(playerOne.getId(), playerTwo.getId()))
                 .build());
     }
 
@@ -48,6 +48,10 @@ public class CurrentMatchService {
     private CurrentMatchService(PlayerDao hibernatePlayerDao, InMemoryMatchDao inMemoryMatchDao) {
         this.hibernatePlayerDao = hibernatePlayerDao;
         this.inMemoryMatchDao = inMemoryMatchDao;
+    }
+
+    public Match get(UUID matchUuid) {
+        return inMemoryMatchDao.findById(matchUuid).orElseThrow();
     }
 
 }

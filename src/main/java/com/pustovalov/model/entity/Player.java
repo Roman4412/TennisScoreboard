@@ -1,4 +1,4 @@
-package com.pustovalov.entity;
+package com.pustovalov.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

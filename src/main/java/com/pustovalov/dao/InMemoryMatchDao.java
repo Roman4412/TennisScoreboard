@@ -1,6 +1,6 @@
 package com.pustovalov.dao;
 
-import com.pustovalov.entity.Match;
+import com.pustovalov.model.entity.Match;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

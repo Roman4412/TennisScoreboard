@@ -1,7 +1,7 @@
 package com.pustovalov.dao;
 
-import com.pustovalov.HibernateUtil;
-import com.pustovalov.entity.Player;
+import com.pustovalov.model.entity.Player;
+import com.pustovalov.util.HibernateUtil;
 import org.hibernate.SessionFactory;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.pustovalov.dto;
+package com.pustovalov.model.dto;
 
 public record CreateMatchDto(String playerOneName, String playerTwoName) {
 }

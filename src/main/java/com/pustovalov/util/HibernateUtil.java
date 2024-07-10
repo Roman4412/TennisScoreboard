@@ -1,4 +1,4 @@
-package com.pustovalov;
+package com.pustovalov.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
