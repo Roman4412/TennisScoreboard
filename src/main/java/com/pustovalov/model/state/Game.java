@@ -4,7 +4,6 @@ import com.pustovalov.model.pojo.MatchScore;
 
 public class Game extends MatchState {
 
-
     public Game(MatchScore matchScore) {
         super(matchScore);
     }
