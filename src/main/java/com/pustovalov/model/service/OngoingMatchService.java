@@ -10,8 +10,8 @@ import com.pustovalov.model.entity.Player;
 
 import java.util.UUID;
 
-public class CurrentMatchService {
-    private static volatile CurrentMatchService instance;
+public class OngoingMatchService {
+    private static volatile OngoingMatchService instance;
     private final PlayerDao hibernatePlayerDao;
     private final InMemoryMatchDao inMemoryMatchDao;
 
@@ -32,11 +32,11 @@ public class CurrentMatchService {
                 .build());
     }
 
-    public static CurrentMatchService getInstance() {
+    public static OngoingMatchService getInstance() {
         if (instance == null) {
-            synchronized(CurrentMatchService.class) {
+            synchronized(OngoingMatchService.class) {
                 if (instance == null) {
-                    instance = new CurrentMatchService(
+                    instance = new OngoingMatchService(
                             HibernatePlayerDao.getInstance(),
                             InMemoryMatchDao.getInstance());
                 }
@@ -45,7 +45,7 @@ public class CurrentMatchService {
         return instance;
     }
 
-    private CurrentMatchService(PlayerDao hibernatePlayerDao, InMemoryMatchDao inMemoryMatchDao) {
+    private OngoingMatchService(PlayerDao hibernatePlayerDao, InMemoryMatchDao inMemoryMatchDao) {
         this.hibernatePlayerDao = hibernatePlayerDao;
         this.inMemoryMatchDao = inMemoryMatchDao;
     }

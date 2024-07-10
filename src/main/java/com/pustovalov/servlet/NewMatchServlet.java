@@ -2,7 +2,7 @@ package com.pustovalov.servlet;
 
 import com.pustovalov.model.dto.CreateMatchDto;
 import com.pustovalov.model.entity.Match;
-import com.pustovalov.model.service.CurrentMatchService;
+import com.pustovalov.model.service.OngoingMatchService;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 @WebServlet("/new-match")
 public class NewMatchServlet extends BaseServlet {
-    private CurrentMatchService currentMatchService;
+    private OngoingMatchService ongoingMatchService;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("WEB-INF/jsp/new-match.jsp").forward(req,resp);
@@ -29,14 +29,14 @@ public class NewMatchServlet extends BaseServlet {
                 params.get("player-two-name")
                 );
 
-        Match savedMatch = currentMatchService.saveInMemory(newMatch);
+        Match savedMatch = ongoingMatchService.saveInMemory(newMatch);
         resp.sendRedirect("/match-score?uuid=" + savedMatch.getExternalId());
     }
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        currentMatchService = CurrentMatchService.getInstance();
+        ongoingMatchService = OngoingMatchService.getInstance();
     }
 
 }
