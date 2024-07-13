@@ -5,7 +5,6 @@
 
 ### Backlog
 - what are the differences between sessionfactory and EntityManager?
-- use @Embeddable for score in Match?
 
 ### ideas
 -use strategy pattern for scoring 
