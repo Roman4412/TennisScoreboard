@@ -5,4 +5,5 @@
 
 ### Backlog
 - what are the differences between sessionfactory and EntityManager?
+- remove unnecessary singletons
 ### ideas
