@@ -1,8 +1,8 @@
 package com.pustovalov.servlet;
 
-import com.pustovalov.model.dto.CreateMatchDto;
-import com.pustovalov.model.entity.Match;
-import com.pustovalov.model.service.OngoingMatchService;
+import com.pustovalov.dto.CreateMatchDto;
+import com.pustovalov.entity.Match;
+import com.pustovalov.service.OngoingMatchService;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

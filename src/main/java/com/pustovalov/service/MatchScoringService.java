@@ -1,6 +1,6 @@
-package com.pustovalov.model.service;
+package com.pustovalov.service;
 
-import com.pustovalov.model.pojo.MatchScore;
+import com.pustovalov.entity.Score;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +14,8 @@ public class MatchScoringService {
     private final OngoingMatchService ongoingMatchService;
 
     public void countPoint(Long playerId, UUID matchUuid) {
-        MatchScore score = ongoingMatchService.get(matchUuid).getScore();
-        score.countPoint(playerId);
+        Score score = ongoingMatchService.get(matchUuid).getScore();
+        score.getMatchScoringState().count(playerId);
     }
     public static MatchScoringService getInstance() {
         if (instance == null) {

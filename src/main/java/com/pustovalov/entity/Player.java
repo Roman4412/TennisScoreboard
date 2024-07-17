@@ -1,4 +1,4 @@
-package com.pustovalov.model.entity;
+package com.pustovalov.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,11 @@ public class Player {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "NAME", unique = true, nullable = false, length = 64) private String name;
+    @Column(name = "NAME",
+            unique = true,
+            nullable = false,
+            length = 64)
+    private String name;
 
     public Player(String name) {
         this.name = name;

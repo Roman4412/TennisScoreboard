@@ -1,6 +1,6 @@
 package com.pustovalov.dao;
 
-import com.pustovalov.model.entity.Match;
+import com.pustovalov.entity.Match;
 import com.pustovalov.util.HibernateUtil;
 import org.hibernate.SessionFactory;
 
@@ -28,7 +28,8 @@ public class HibernateMatchDao implements MatchDao<UUID> {
 
     @Override
     public Match save(Match match) {
-        return null;
+        sessionFactory.getCurrentSession().persist(match);
+        return match;
     }
 
     @Override

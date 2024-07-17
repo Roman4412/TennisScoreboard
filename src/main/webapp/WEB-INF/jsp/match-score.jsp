@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="com.pustovalov.enums.ScoreUnits" %>
 <html>
 <head>
     <title>Match score</title>
@@ -14,19 +15,19 @@
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Point</p>
-                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerOne.id, "Point")}</p>
+                    <p class="point">${requestScope.match.score.getPlayerScore(requestScope.match.playerOne.id, ScoreUnits.POINT)}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Game</p>
-                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerOne.id, "Game")}</p>
+                    <p class="point">${requestScope.match.score.getPlayerScore(requestScope.match.playerOne.id, ScoreUnits.GAME)}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Set</p>
-                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerOne.id, "Set")}</p>
+                    <p class="point">${requestScope.match.score.getPlayerScore(requestScope.match.playerOne.id, ScoreUnits.SET)}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Tiebreak</p>
-                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerOne.id,"Tiebreak")}</p>
+                    <p class="point">${requestScope.match.score.getPlayerScore(requestScope.match.playerOne.id,ScoreUnits.TIEBREAK)}</p>
                 </div>
 
                 <div class="point-button">
@@ -40,19 +41,19 @@
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Point</p>
-                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerTwo.id, "Point")}</p>
+                    <p class="point">${requestScope.match.score.getPlayerScore(requestScope.match.playerTwo.id, ScoreUnits.POINT)}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Game</p>
-                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerTwo.id, "Game")}</p>
+                    <p class="point">${requestScope.match.score.getPlayerScore(requestScope.match.playerTwo.id, ScoreUnits.GAME)}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Set</p>
-                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerTwo.id,"Set")}</p>
+                    <p class="point">${requestScope.match.score.getPlayerScore(requestScope.match.playerTwo.id,ScoreUnits.SET)}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">Tiebreak</p>
-                    <p class="point">${requestScope.match.score.getPlayersScore(requestScope.match.playerTwo.id,"Tiebreak")}</p>
+                    <p class="point">${requestScope.match.score.getPlayerScore(requestScope.match.playerTwo.id,ScoreUnits.TIEBREAK)}</p>
                 </div>
 
                 <div class="point-button">
