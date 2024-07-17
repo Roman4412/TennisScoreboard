@@ -1,17 +1,17 @@
-package com.pustovalov.model.service;
+package com.pustovalov.service;
 
 import com.pustovalov.dao.HibernatePlayerDao;
 import com.pustovalov.dao.InMemoryMatchDao;
 import com.pustovalov.dao.PlayerDao;
-import com.pustovalov.model.dto.CreateMatchDto;
-import com.pustovalov.model.entity.Match;
-import com.pustovalov.model.pojo.MatchScore;
-import com.pustovalov.model.entity.Player;
+import com.pustovalov.entity.Match;
+import com.pustovalov.entity.Player;
+import com.pustovalov.dto.CreateMatchDto;
+import com.pustovalov.entity.Score;
 
 import java.util.UUID;
 
-public class CurrentMatchService {
-    private static volatile CurrentMatchService instance;
+public class OngoingMatchService {
+    private static volatile OngoingMatchService instance;
     private final PlayerDao hibernatePlayerDao;
     private final InMemoryMatchDao inMemoryMatchDao;
 
@@ -24,19 +24,21 @@ public class CurrentMatchService {
                 .findByName(createMatchDto.playerTwoName())
                 .orElse(hibernatePlayerDao.save(new Player(createMatchDto.playerTwoName())));
 
-        return inMemoryMatchDao.save(Match.builder()
-                .externalId(UUID.randomUUID())
-                .playerOne(playerOne)
-                .playerTwo(playerTwo)
-                .score(new MatchScore(playerOne.getId(), playerTwo.getId()))
-                .build());
+        Match match = new Match(playerOne, playerTwo, UUID.randomUUID());
+        match.setScore(new Score());
+
+        return inMemoryMatchDao.save(match);
     }
 
-    public static CurrentMatchService getInstance() {
+    public Match get(UUID matchUuid) {
+        return inMemoryMatchDao.findById(matchUuid).orElseThrow();
+    }
+
+    public static OngoingMatchService getInstance() {
         if (instance == null) {
-            synchronized(CurrentMatchService.class) {
+            synchronized(OngoingMatchService.class) {
                 if (instance == null) {
-                    instance = new CurrentMatchService(
+                    instance = new OngoingMatchService(
                             HibernatePlayerDao.getInstance(),
                             InMemoryMatchDao.getInstance());
                 }
@@ -45,13 +47,13 @@ public class CurrentMatchService {
         return instance;
     }
 
-    private CurrentMatchService(PlayerDao hibernatePlayerDao, InMemoryMatchDao inMemoryMatchDao) {
+    private OngoingMatchService(PlayerDao hibernatePlayerDao, InMemoryMatchDao inMemoryMatchDao) {
         this.hibernatePlayerDao = hibernatePlayerDao;
         this.inMemoryMatchDao = inMemoryMatchDao;
     }
 
-    public Match get(UUID matchUuid) {
-        return inMemoryMatchDao.findById(matchUuid).orElseThrow();
+    public void delete(UUID uuid) {
+        inMemoryMatchDao.delete(uuid);
     }
 
 }

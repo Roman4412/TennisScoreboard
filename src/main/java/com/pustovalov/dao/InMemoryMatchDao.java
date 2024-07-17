@@ -1,6 +1,6 @@
 package com.pustovalov.dao;
 
-import com.pustovalov.model.entity.Match;
+import com.pustovalov.entity.Match;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,8 +22,13 @@ public class InMemoryMatchDao implements MatchDao<UUID> {
 
     @Override
     public void delete(UUID id) {
-
+        Match removed = currentMatches.remove(id);
+        if (removed == null) {
+            throw new RuntimeException(String.format(
+                    "The match with id %s was not found", id));
+        }
     }
+
     public static InMemoryMatchDao getInstance() {
         if (instance == null) {
             synchronized(InMemoryMatchDao.class) {

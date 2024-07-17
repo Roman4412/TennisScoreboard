@@ -1,8 +1,8 @@
-package com.pustovalov.model.state;
+package com.pustovalov.state;
 
-import com.pustovalov.model.pojo.MatchScore;
+import com.pustovalov.entity.Score;
 
-public abstract class MatchState {
+public abstract class MatchScoringState {
     protected static final String DEFAULT_PTS = "0";
     protected static final String FIFTEEN_PTS = "15";
     protected static final String THIRTY_PTS = "30";
@@ -12,16 +12,12 @@ public abstract class MatchState {
     protected static final int TIEBREAK_PTS_FOR_WIN = 7;
     protected static final int POINT_DIFFERENCE_FOR_WIN = 2;
 
-    protected static final String POINT = "Point";
-    protected static final String GAME = "Game";
-    protected static final String SET = "Set";
-    protected static final String TIEBREAK = "Tiebreak";
 
-    protected MatchScore matchScore;
+    protected Score score;
     public abstract void count(Long playerId);
 
-    public MatchState(MatchScore matchScore) {
-        this.matchScore = matchScore;
+    public MatchScoringState(Score score) {
+        this.score = score;
     }
 
 }
