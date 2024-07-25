@@ -1,6 +1,7 @@
 package com.pustovalov.service;
 
-import com.pustovalov.entity.Score;
+import com.pustovalov.entity.Match;
+import com.pustovalov.strategy.Score;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,11 +12,17 @@ import java.util.UUID;
 public class MatchScoringService {
 
     private static volatile MatchScoringService instance;
+
     private final OngoingMatchService ongoingMatchService;
 
     public void countPoint(Long playerId, UUID matchUuid) {
-        Score score = ongoingMatchService.get(matchUuid).getScore();
-        score.getMatchScoringState().count(playerId);
+        Match match = ongoingMatchService.get(matchUuid);
+
+        if(match.isFinished()) {
+            throw new UnsupportedOperationException("Scoring is not possible in a completed match");
+        }
+        Score score = match.getScore();
+        score.count(playerId);
     }
     public static MatchScoringService getInstance() {
         if (instance == null) {

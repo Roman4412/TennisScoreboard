@@ -6,7 +6,7 @@ import com.pustovalov.dao.PlayerDao;
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.Player;
 import com.pustovalov.dto.CreateMatchDto;
-import com.pustovalov.entity.Score;
+import com.pustovalov.strategy.Score;
 
 import java.util.UUID;
 
