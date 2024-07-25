@@ -1,7 +1,7 @@
 package com.pustovalov.strategy;
 
 import com.pustovalov.entity.Match;
-import com.pustovalov.entity.Points;
+import com.pustovalov.entity.ScoreContainer;
 import com.pustovalov.enums.ScoreUnits;
 import lombok.Getter;
 
@@ -11,7 +11,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 public class Score {
 
-    private Map<Long, Points> currentScore;
+    private static final String ZERO = "0";
+
+    private Map<Long, ScoreContainer> currentScore;
+
+    private Map <Long, ScoreContainer> matchResults;
 
     private Match match;
 
@@ -30,16 +34,27 @@ public class Score {
 
     void setPoints(Long playerId, ScoreUnits scoreUnit, String value) {
         if (currentScore.containsKey(playerId)) {
-            Points points = currentScore.get(playerId);
-            points.setPoint(scoreUnit, value);
+            ScoreContainer scoreContainer = currentScore.get(playerId);
+            scoreContainer.addPoint(scoreUnit, value);
         } else {
             throw new RuntimeException(String.format("there is no info for a player named %S", playerId));
         }
     }
 
     void resetScore(ScoreUnits scoreUnit) {
-        currentScore.get(match.getPlayerOne().getId()).setPoint(scoreUnit,Points.DEFAULT_VALUE);
-        currentScore.get(match.getPlayerTwo().getId()).setPoint(scoreUnit,Points.DEFAULT_VALUE);
+        currentScore.get(match.getPlayerOne().getId()).addPoint(scoreUnit, ZERO);
+        currentScore.get(match.getPlayerTwo().getId()).addPoint(scoreUnit, ZERO);
+    }
+
+    void saveScore(ScoreUnits units) {
+        Long playerOneId = match.getPlayerOne().getId();
+        Long playerTwoId = match.getPlayerTwo().getId();
+
+        String playerOnePts = getPoints(playerOneId, units);
+        String playerTwoPts = getPoints(playerTwoId, units);
+
+        matchResults.get(playerOneId).addPoint(units,playerOnePts);
+        matchResults.get(playerTwoId).addPoint(units, playerTwoPts);
     }
 
     void changeStrategy(ScoringStrategy strategy) {
@@ -56,9 +71,12 @@ public class Score {
         Long playerTwoId = match.getPlayerTwo().getId();
 
         currentScore = new ConcurrentHashMap<>();
-        currentScore.put(playerOneId, new Points());
-        currentScore.put(playerTwoId, new Points());
+        currentScore.put(playerOneId, new ScoreContainer(ZERO));
+        currentScore.put(playerTwoId, new ScoreContainer(ZERO));
 
+        matchResults = new ConcurrentHashMap<>();
+        matchResults.put(playerOneId,new ScoreContainer());
+        matchResults.put(playerTwoId,new ScoreContainer());
         scoringStrategy = new GameScoringStrategy(this);
     }
 

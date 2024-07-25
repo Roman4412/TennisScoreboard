@@ -3,7 +3,7 @@ package com.pustovalov.strategy;
 import com.pustovalov.enums.ScoreUnits;
 
 public class GameScoringStrategy extends ScoringStrategy {
-    private static final String DEFAULT_PTS = "0";
+    private static final String ZERO_PTS = "0";
     private static final String FIFTEEN_PTS = "15";
     private static final String THIRTY_PTS = "30";
     private static final String FORTY_PTS = "40";
@@ -16,7 +16,7 @@ public class GameScoringStrategy extends ScoringStrategy {
         String opponentScore = score.getPoints(opponentId, ScoreUnits.GAME);
 
         switch(playerScore) {
-            case DEFAULT_PTS -> score.setPoints(playerId, ScoreUnits.GAME, FIFTEEN_PTS);
+            case ZERO_PTS -> score.setPoints(playerId, ScoreUnits.GAME, FIFTEEN_PTS);
             case FIFTEEN_PTS -> score.setPoints(playerId, ScoreUnits.GAME, THIRTY_PTS);
             case THIRTY_PTS -> score.setPoints(playerId, ScoreUnits.GAME, FORTY_PTS);
 
