@@ -16,6 +16,5 @@
 
         <mapping class="com.pustovalov.entity.Match"/>
         <mapping class="com.pustovalov.entity.Player"/>
-        <mapping class="com.pustovalov.entity.Score"/>
     </session-factory>
 </hibernate-configuration>
