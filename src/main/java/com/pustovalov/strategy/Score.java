@@ -32,6 +32,14 @@ public class Score {
         }
     }
 
+    public String getResultPoints(Long playerId, ScoreUnits scoreUnit) {
+        if (currentScore.containsKey(playerId)) {
+            return matchResults.get(playerId).getPoint(scoreUnit);
+        } else {
+            throw new RuntimeException(String.format("there is no info for a player named %S", playerId));
+        }
+    }
+
     void setPoints(Long playerId, ScoreUnits scoreUnit, String value) {
         if (currentScore.containsKey(playerId)) {
             ScoreContainer scoreContainer = currentScore.get(playerId);

@@ -37,9 +37,11 @@ public class MatchScoreServlet extends BaseServlet {
         if(match.isFinished()) {
             finishedMatchService.persist(match);
             ongoingMatchService.delete(uuid);
+            req.setAttribute("match", match);
+            req.getRequestDispatcher("WEB-INF/jsp/match-results.jsp").forward(req,resp);
         } else {
             req.setAttribute("match", match);
-            req.getRequestDispatcher("WEB-INF/jsp/match-score.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/jsp/match-score.jsp").forward(req,resp);
         }
     }
 

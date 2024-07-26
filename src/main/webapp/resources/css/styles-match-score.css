@@ -1,9 +1,4 @@
 .name {
-    width: auto;
-    display: inline;
-}
-
-.player-info {
     width: 250px;
     float: left;
 
@@ -12,3 +7,4 @@
     display: inline-block;
     width: 100px;
 }
+

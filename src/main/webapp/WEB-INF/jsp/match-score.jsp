@@ -3,13 +3,13 @@
 <html>
 <head>
     <title>Match score</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/styles-match-score.css">
 </head>
 <body>
 <div>
     <form action="http://localhost:8080/match-score?uuid=${param.uuid}" method="post" name="player-number">
         <div class="score">
-            <section class="player-info">
+            <section class="name">
                 <div class="score-unit">
                     <p>${requestScope.match.playerOne.name}</p>
                 </div>
@@ -35,7 +35,7 @@
                     </button>
                 </div>
             </section>
-            <section class="player-info">
+            <section class="name">
                 <div class="score-unit">
                     <p>${requestScope.match.playerTwo.name}</p>
                 </div>

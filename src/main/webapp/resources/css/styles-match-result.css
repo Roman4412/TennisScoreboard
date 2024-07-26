@@ -1,0 +1,15 @@
+.player, .score {
+    display: inline-block;
+}
+
+.player {
+    vertical-align: top;
+}
+
+.score {
+    width: 70px;
+}
+
+.p-value {
+    display: inline-block;
+}
