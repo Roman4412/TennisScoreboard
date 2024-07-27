@@ -3,6 +3,7 @@ package com.pustovalov.entity;
 import com.pustovalov.enums.ScoreUnits;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ScoreContainer {
@@ -42,6 +43,18 @@ public class ScoreContainer {
             case TIEBREAK -> tiebreak.get(tiebreak.size() - 1);
             case SET -> set.get(set.size() - 1);
             case MATCH -> match.get(match.size() - 1);
+        };
+    }
+
+    public List<String> getAllPoints(ScoreUnits units) {
+        if (units == null) {
+            throw new IllegalArgumentException("Units cannot be null");
+        }
+        return switch(units) {
+            case GAME -> Collections.unmodifiableList(game);
+            case TIEBREAK -> Collections.unmodifiableList(tiebreak);
+            case SET -> Collections.unmodifiableList(set);
+            case MATCH -> Collections.unmodifiableList(match);
         };
     }
 

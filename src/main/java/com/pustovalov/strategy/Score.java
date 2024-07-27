@@ -5,6 +5,7 @@ import com.pustovalov.entity.ScoreContainer;
 import com.pustovalov.enums.ScoreUnits;
 import lombok.Getter;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -32,9 +33,9 @@ public class Score {
         }
     }
 
-    public String getResultPoints(Long playerId, ScoreUnits scoreUnit) {
+    public List<String> getResultPoints(Long playerId, ScoreUnits units) {
         if (currentScore.containsKey(playerId)) {
-            return matchResults.get(playerId).getPoint(scoreUnit);
+            return matchResults.get(playerId).getAllPoints(units);
         } else {
             throw new RuntimeException(String.format("there is no info for a player named %S", playerId));
         }
