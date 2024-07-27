@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @WebServlet("/new-match")
-public class NewMatchServlet extends BaseServlet {
+public class CreateMatchServlet extends BaseServlet {
     private OngoingMatchService ongoingMatchService;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
