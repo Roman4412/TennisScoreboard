@@ -37,6 +37,21 @@ public class InMemoryMatchDao implements MatchDao<UUID> {
         return null;
     }
 
+    @Override
+    public List<Match> findByPlayerName(int offset, int limit, String name) {
+        return null;
+    }
+
+    @Override
+    public Long getNumOfMatches() {
+        return 0L;
+    }
+
+    @Override
+    public Long getNumOfMatchesByName(String name) {
+        return null;
+    }
+
     public static InMemoryMatchDao getInstance() {
         if (instance == null) {
             synchronized(InMemoryMatchDao.class) {

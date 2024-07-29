@@ -53,4 +53,28 @@ public class HibernateMatchDao implements MatchDao<UUID> {
 
     }
 
+    @Override
+    public List<Match> findByPlayerName(int offset, int limit, String name) {
+        String queryString = "select m from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name) order by m.id desc";
+        return sessionFactory.getCurrentSession()
+                .createQuery(queryString, Match.class)
+                .setParameter("name", "%" + name + "%")
+                .setMaxResults(limit)
+                .setFirstResult(offset)
+                .list();
+    }
+
+    public Long getNumOfMatches() {
+        String queryString = "select count(*) from Match";
+        return sessionFactory.getCurrentSession().createQuery(queryString, Long.class).uniqueResult();
+    }
+
+    public Long getNumOfMatchesByName(String name) {
+        String queryString = "select count(*) from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name)";
+        return sessionFactory.getCurrentSession()
+                .createQuery(queryString, Long.class)
+                .setParameter("name", "%" + name + "%")
+                .uniqueResult();
+    }
+
 }

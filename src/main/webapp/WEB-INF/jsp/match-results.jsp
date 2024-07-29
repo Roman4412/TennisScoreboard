@@ -45,7 +45,7 @@
 </div>
 <div>
     <a href="http://localhost:8080/new-match">main</a>
-    <a href="http://localhost:8080/matches?offset=0&limit=5">matches</a>
+    <a href="http://localhost:8080/matches?offset=0">matches</a>
 </div>
 
 </body>

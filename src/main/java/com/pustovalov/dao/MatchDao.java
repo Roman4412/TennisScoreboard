@@ -15,4 +15,10 @@ public interface MatchDao<I> {
 
     List<Match> findAll(int offset, int limit);
 
+    List<Match> findByPlayerName(int offset, int limit, String name);
+
+    Long getNumOfMatches();
+
+    Long getNumOfMatchesByName(String name);
+
 }
