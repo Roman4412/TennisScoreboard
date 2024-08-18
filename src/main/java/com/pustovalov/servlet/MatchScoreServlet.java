@@ -1,7 +1,7 @@
 package com.pustovalov.servlet;
 
 import com.pustovalov.entity.Match;
-import com.pustovalov.service.FinishedMatchService;
+import com.pustovalov.service.FinishedMatchPersistenceService;
 import com.pustovalov.service.OngoingMatchService;
 import com.pustovalov.service.MatchScoringService;
 import jakarta.servlet.ServletConfig;
@@ -17,7 +17,7 @@ import java.util.UUID;
 public class MatchScoreServlet extends BaseServlet {
     private OngoingMatchService ongoingMatchService;
     private MatchScoringService matchScoringService;
-    private FinishedMatchService finishedMatchService;
+    private FinishedMatchPersistenceService finishedMatchPersistenceService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,7 +35,7 @@ public class MatchScoreServlet extends BaseServlet {
         matchScoringService.countPoint(playerId, match.getExternalId());
 
         if(match.isFinished()) {
-            finishedMatchService.persist(match);
+            finishedMatchPersistenceService.persist(match);
             ongoingMatchService.delete(uuid);
             req.setAttribute("match", match);
             req.getRequestDispatcher("WEB-INF/jsp/match-results.jsp").forward(req,resp);
@@ -50,7 +50,7 @@ public class MatchScoreServlet extends BaseServlet {
         super.init(config);
         matchScoringService = MatchScoringService.getInstance();
         ongoingMatchService = OngoingMatchService.getInstance();
-        finishedMatchService = FinishedMatchService.getInstance();
+        finishedMatchPersistenceService = FinishedMatchPersistenceService.getInstance();
     }
 
 }

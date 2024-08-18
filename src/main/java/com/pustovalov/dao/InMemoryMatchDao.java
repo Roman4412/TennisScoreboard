@@ -2,7 +2,10 @@ package com.pustovalov.dao;
 
 import com.pustovalov.entity.Match;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class InMemoryMatchDao implements MatchDao<UUID> {
@@ -27,6 +30,26 @@ public class InMemoryMatchDao implements MatchDao<UUID> {
             throw new RuntimeException(String.format(
                     "The match with id %s was not found", id));
         }
+    }
+
+    @Override
+    public List<Match> findAll(int offset, int limit) {
+        return null;
+    }
+
+    @Override
+    public List<Match> findByPlayerName(int offset, int limit, String name) {
+        return null;
+    }
+
+    @Override
+    public Long getRowsAmount() {
+        return 0L;
+    }
+
+    @Override
+    public Long getRowsAmount(String name) {
+        return null;
     }
 
     public static InMemoryMatchDao getInstance() {

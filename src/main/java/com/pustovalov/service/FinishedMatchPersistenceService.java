@@ -3,8 +3,8 @@ package com.pustovalov.service;
 import com.pustovalov.dao.HibernateMatchDao;
 import com.pustovalov.entity.Match;
 
-public class FinishedMatchService {
-    private static volatile FinishedMatchService instance;
+public class FinishedMatchPersistenceService {
+    private static volatile FinishedMatchPersistenceService instance;
     private final HibernateMatchDao hibernateMatchDao;
 
 
@@ -12,18 +12,18 @@ public class FinishedMatchService {
         return hibernateMatchDao.save(match);
     }
 
-    public static FinishedMatchService getInstance() {
+    public static FinishedMatchPersistenceService getInstance() {
         if (instance == null) {
-            synchronized(FinishedMatchService.class) {
+            synchronized(FinishedMatchPersistenceService.class) {
                 if (instance == null) {
-                    instance = new FinishedMatchService(HibernateMatchDao.getInstance());
+                    instance = new FinishedMatchPersistenceService(HibernateMatchDao.getInstance());
                 }
             }
         }
         return instance;
     }
 
-    public FinishedMatchService(HibernateMatchDao hibernateMatchDao) {
+    public FinishedMatchPersistenceService(HibernateMatchDao hibernateMatchDao) {
         this.hibernateMatchDao = hibernateMatchDao;
     }
 
