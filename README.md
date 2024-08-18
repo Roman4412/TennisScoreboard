@@ -7,4 +7,11 @@
 - what are the differences between sessionfactory and EntityManager?
 - remove unnecessary singletons
 - Recycle the dao layer
+- возвращать DTO в сервисах modelMapper или mapStruct
+- вместо установки атрибутов использовать поля DTO
+- статусы ответов в сервлетах
+- исключения
+
 ### ideas
+
+###
