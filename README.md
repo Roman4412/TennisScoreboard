@@ -4,7 +4,7 @@
 - non-extensible code
 
 ### Backlog
-- what are the differences between sessionfactory and EntityManager?
+
 - remove unnecessary singletons
 - Recycle the dao layer
 - возвращать DTO в сервисах modelMapper или mapStruct
@@ -14,4 +14,5 @@
 
 ### ideas
 
-###
+### Questions
+- what are the differences between sessionfactory and EntityManager?
