@@ -1,30 +1,50 @@
 package com.pustovalov.service;
 
 import com.pustovalov.dao.MatchDao;
+import com.pustovalov.dto.StoredMatchRespDto;
 import com.pustovalov.entity.Match;
 
 import java.util.List;
 
 public class StoredMatchService {
+    public static final int LIMIT = 10;
     private final MatchDao matchDao;
 
-    public List<Match> findAll(int offset, int limit) {
-        return matchDao.findAll(offset, limit);
+    public StoredMatchRespDto findAll(int page) {
+        int totalPages = getTotalPages();
+        int offset = page * LIMIT;
+        List<Match> matches = matchDao.findAll(offset, LIMIT);
+
+        return StoredMatchRespDto.builder()
+                .totalPages(totalPages)
+                .matches(matches)
+                .currentPage(page)
+                .build();
     }
 
-    public List<Match> getMatchesFilterByName(int offset, int limit, String name) {
-        return matchDao.findByPlayerName(offset, limit, name);
+    public StoredMatchRespDto findAll(int page, String name) {
+        int totalPages = getTotalPages(name);
+        int offset = page * LIMIT;
+        List<Match> matches = matchDao.findByPlayerName(offset, LIMIT, name);
+
+        return StoredMatchRespDto.builder()
+                .totalPages(totalPages)
+                .matches(matches)
+                .filterByPlayerName(name)
+                .currentPage(page)
+                .build();
     }
 
-    public int getNumOfPages(int limit) {
-        Long totalMatches = matchDao.getNumOfMatches();
-        return (int) Math.ceil(totalMatches / limit);
+    private int getTotalPages() {
+        Long total = matchDao.getRowsAmount();
+        return (int) (total / LIMIT);
     }
-    public int getNumOfPages(int limit, String name) {
-        Long totalMatches = matchDao.getNumOfMatchesByName(name);
-        int ceil = (int) Math.ceil(totalMatches / limit);
-        return ceil == 0? 1 : ceil;
+
+    private int getTotalPages(String name) {
+        Long total = matchDao.getRowsAmount(name);
+        return (int) (total / LIMIT);
     }
+
     public StoredMatchService(MatchDao matchDao) {
         this.matchDao = matchDao;
     }

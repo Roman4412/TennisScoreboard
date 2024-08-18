@@ -64,12 +64,12 @@ public class HibernateMatchDao implements MatchDao<UUID> {
                 .list();
     }
 
-    public Long getNumOfMatches() {
+    public Long getRowsAmount() {
         String queryString = "select count(*) from Match";
         return sessionFactory.getCurrentSession().createQuery(queryString, Long.class).uniqueResult();
     }
 
-    public Long getNumOfMatchesByName(String name) {
+    public Long getRowsAmount(String name) {
         String queryString = "select count(*) from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name)";
         return sessionFactory.getCurrentSession()
                 .createQuery(queryString, Long.class)

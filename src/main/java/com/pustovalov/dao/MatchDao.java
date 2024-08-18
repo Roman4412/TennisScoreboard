@@ -17,8 +17,8 @@ public interface MatchDao<I> {
 
     List<Match> findByPlayerName(int offset, int limit, String name);
 
-    Long getNumOfMatches();
+    Long getRowsAmount();
 
-    Long getNumOfMatchesByName(String name);
+    Long getRowsAmount(String name);
 
 }

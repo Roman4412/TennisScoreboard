@@ -6,18 +6,19 @@
     <title>Matches</title>
 </head>
 <body>
-<c:set var="currentPage" value="${(param.offset / 5 + 1).intValue()}"/>
-<c:set var="nextPage" value="${param.offset + 5}"/>
-<c:set var="prevPage" value="${param.offset - 5}"/>
+<c:set var="page" value="${resp.currentPage}"/>
+<c:set var="pageNum" value="${resp.currentPage + 1}"/>
+<c:set var="totalPages" value="${resp.totalPages + 1}"/>
+
 <a href="http://localhost:8080/new-match">new match</a>
 
 <div>
-    <form action="http://localhost:8080/matches?player-name=&offset=${currentPage}" method="get">
+    <form action="http://localhost:8080/matches" method="get">
         <fieldset>
-            <input type="search" name="player-name" value="${playerName}">
+            <input type="search" name="filter-by-player-name" value="${resp.filterByPlayerName}">
             <button type="submit">Search</button>
             <table>
-                <c:forEach var="m" items="${matches}">
+                <c:forEach var="m" items="${resp.matches}">
                     <tr>
                         <td>${m.id}</td>
                         <td>${m.playerOne.name}</td>
@@ -27,25 +28,25 @@
             </table>
 
             <c:choose>
-                <c:when test="${currentPage == totalPages && totalPages > 1}">
-                    <button type="submit" name="offset" value="${prevPage}">prev</button>
-                    <span>${currentPage} / ${totalPages}</span>
-                    <button type="submit" name="offset" disabled>next</button>
+                <c:when test="${pageNum == totalPages && totalPages > 1}">
+                    <button type="submit" name="page" value="${page - 1}">prev</button>
+                    <span>${pageNum} / ${totalPages}</span>
+                    <button type="submit" name="page" disabled>next</button>
                 </c:when>
-                <c:when test="${currentPage == 1 && totalPages > 1}">
-                    <button type="submit" name="offset" disabled>prev</button>
-                    <span>${currentPage} / ${totalPages}</span>
-                    <button type="submit" name="offset" value="${nextPage}">next</button>
+                <c:when test="${pageNum == 0 && totalPages > 1}">
+                    <button type="submit" name="page" disabled>prev</button>
+                    <span>${pageNum} / ${totalPages}</span>
+                    <button type="submit" name="page" value="${page + 1}">next</button>
                 </c:when>
                 <c:when test="${totalPages == 1}">
-                    <button type="submit" name="offset" disabled>prev</button>
-                    <span>${currentPage} / ${totalPages}</span>
-                    <button type="submit" name="offset" disabled>next</button>
+                    <button type="submit" name="page" disabled>prev</button>
+                    <span>${pageNum} / ${totalPages}</span>
+                    <button type="submit" name="page" disabled>next</button>
                 </c:when>
                 <c:otherwise>
-                    <button type="submit" name="offset" value="${prevPage}">prev</button>
-                    <span>${currentPage} / ${totalPages}</span>
-                    <button type="submit" name="offset" value="${nextPage}">next</button>
+                    <button type="submit" name="page" value="${page - 1}">prev</button>
+                    <span>${pageNum} / ${totalPages}</span>
+                    <button type="submit" name="page" value="${page + 1}">next</button>
                 </c:otherwise>
             </c:choose>
 

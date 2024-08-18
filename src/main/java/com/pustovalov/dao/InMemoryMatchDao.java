@@ -43,12 +43,12 @@ public class InMemoryMatchDao implements MatchDao<UUID> {
     }
 
     @Override
-    public Long getNumOfMatches() {
+    public Long getRowsAmount() {
         return 0L;
     }
 
     @Override
-    public Long getNumOfMatchesByName(String name) {
+    public Long getRowsAmount(String name) {
         return null;
     }
 
