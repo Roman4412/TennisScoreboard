@@ -1,7 +1,7 @@
 package com.pustovalov.servlet;
 
 import com.pustovalov.dao.HibernateMatchDao;
-import com.pustovalov.dto.StoredMatchRespDto;
+import com.pustovalov.dto.StoredMatchResponse;
 import com.pustovalov.service.StoredMatchService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,7 +22,7 @@ public class StoredMatchServlet extends BaseServlet {
         String filterByPlayerName = req.getParameter("filter-by-player-name");
         String page = req.getParameter("page");
         int preparedPage = page == null ? DEFAULT_PAGE : parseInt(page);
-        StoredMatchRespDto response;
+        StoredMatchResponse response;
 
         if (filterByPlayerName == null || filterByPlayerName.isBlank()) {
             response = storedMatchService.findAll(preparedPage);

@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="com.pustovalov.enums.ScoreUnits" %>
 <html>
 <head>
     <title>Match score</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/styles-match-score.css">
+    <link rel="stylesheet" type="text/css"
+          href="${pageContext.request.contextPath}/resources/css/styles-match-score.css">
 </head>
 <body>
 <div>
@@ -11,53 +11,53 @@
         <div class="score">
             <section class="name">
                 <div class="score-unit">
-                    <p>${requestScope.match.playerOne.name}</p>
+                    <p>${resp.playerOne.name}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">GAME</p>
-                    <p class="point">${requestScope.match.score.getPoints(requestScope.match.playerOne.id, ScoreUnits.GAME)}</p>
+                    <p class="point">${resp.playerOneGamePts}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">SET</p>
-                    <p class="point">${requestScope.match.score.getPoints(requestScope.match.playerOne.id, ScoreUnits.SET)}</p>
+                    <p class="point">${resp.playerOneSetPts}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">MATCH</p>
-                    <p class="point">${requestScope.match.score.getPoints(requestScope.match.playerOne.id, ScoreUnits.MATCH)}</p>
+                    <p class="point">${resp.playerOneMatchPts}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">TIEBREAK</p>
-                    <p class="point">${requestScope.match.score.getPoints(requestScope.match.playerOne.id,ScoreUnits.TIEBREAK)}</p>
+                    <p class="point">${resp.playerOneTiebreakPts}</p>
                 </div>
 
                 <div class="point-button">
-                    <button type="submit" value=${requestScope.match.playerOne.id} name="player-id">Point
+                    <button type="submit" value=${resp.playerOne.id} name="player-id">Point
                     </button>
                 </div>
             </section>
             <section class="name">
                 <div class="score-unit">
-                    <p>${requestScope.match.playerTwo.name}</p>
+                    <p>${resp.playerTwo.name}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">GAME</p>
-                    <p class="point">${requestScope.match.score.getPoints(requestScope.match.playerTwo.id, ScoreUnits.GAME)}</p>
+                    <p class="point">${resp.playerTwoGamePts}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">SET</p>
-                    <p class="point">${requestScope.match.score.getPoints(requestScope.match.playerTwo.id, ScoreUnits.SET)}</p>
+                    <p class="point">${resp.playerTwoSetPts}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">MATCH</p>
-                    <p class="point">${requestScope.match.score.getPoints(requestScope.match.playerTwo.id,ScoreUnits.MATCH)}</p>
+                    <p class="point">${resp.playerTwoMatchPts}</p>
                 </div>
                 <div class="score-unit">
                     <p class="game-unit">TIEBREAK</p>
-                    <p class="point">${requestScope.match.score.getPoints(requestScope.match.playerTwo.id,ScoreUnits.TIEBREAK)}</p>
+                    <p class="point">${resp.playerTwoTiebreakPts}</p>
                 </div>
 
                 <div class="point-button">
-                    <button type="submit" value=${requestScope.match.playerTwo.id} name="player-id">Point
+                    <button type="submit" value=${resp.playerTwo.id} name="player-id">Point
                     </button>
                 </div>
             </section>

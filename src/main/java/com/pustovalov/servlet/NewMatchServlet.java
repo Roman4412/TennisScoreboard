@@ -1,6 +1,6 @@
 package com.pustovalov.servlet;
 
-import com.pustovalov.dto.CreateMatchDto;
+import com.pustovalov.dto.NewMatchDto;
 import com.pustovalov.entity.Match;
 import com.pustovalov.service.OngoingMatchService;
 import jakarta.servlet.ServletConfig;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @WebServlet("/new-match")
-public class CreateMatchServlet extends BaseServlet {
+public class NewMatchServlet extends BaseServlet {
     private OngoingMatchService ongoingMatchService;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -21,10 +21,9 @@ public class CreateMatchServlet extends BaseServlet {
     }
 
     @Override
-
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Map<String, String> params = getParamsFromBody(req);
-        CreateMatchDto newMatch = new CreateMatchDto(
+        NewMatchDto newMatch = new NewMatchDto(
                 params.get("player-one-name"),
                 params.get("player-two-name")
                 );

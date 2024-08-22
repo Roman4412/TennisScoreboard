@@ -2,54 +2,30 @@ package com.pustovalov.dao;
 
 import com.pustovalov.entity.Match;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class InMemoryMatchDao implements MatchDao<UUID> {
+public class InMemoryMatchDao {
     private static volatile InMemoryMatchDao instance;
     private final Map<UUID, Match> currentMatches;
 
-    @Override
     public Match save(Match match) {
         currentMatches.put(match.getExternalId(), match);
         return match;
     }
 
-    @Override
-    public Optional<Match> findById(UUID id) {
-        return Optional.ofNullable(currentMatches.get(id));
+    public Optional<Match> findById(UUID uuid) {
+        return Optional.ofNullable(currentMatches.get(uuid));
     }
 
-    @Override
-    public void delete(UUID id) {
-        Match removed = currentMatches.remove(id);
+    public void delete(UUID uuid) {
+        Match removed = currentMatches.remove(uuid);
         if (removed == null) {
             throw new RuntimeException(String.format(
-                    "The match with id %s was not found", id));
+                    "The match with uuid %s was not found", uuid));
         }
-    }
-
-    @Override
-    public List<Match> findAll(int offset, int limit) {
-        return null;
-    }
-
-    @Override
-    public List<Match> findByPlayerName(int offset, int limit, String name) {
-        return null;
-    }
-
-    @Override
-    public Long getRowsAmount() {
-        return 0L;
-    }
-
-    @Override
-    public Long getRowsAmount(String name) {
-        return null;
     }
 
     public static InMemoryMatchDao getInstance() {

@@ -15,8 +15,8 @@ public class MatchScoringService {
 
     private final OngoingMatchService ongoingMatchService;
 
-    public void countPoint(Long playerId, UUID matchUuid) {
-        Match match = ongoingMatchService.get(matchUuid);
+    public void countPoint(Long playerId, UUID uuid) {
+        Match match = ongoingMatchService.get(uuid);
 
         if(match.isFinished()) {
             throw new UnsupportedOperationException("Scoring is not possible in a completed match");
