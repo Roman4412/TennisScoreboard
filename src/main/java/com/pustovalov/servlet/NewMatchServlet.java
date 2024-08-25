@@ -1,7 +1,6 @@
 package com.pustovalov.servlet;
 
-import com.pustovalov.dto.NewMatchDto;
-import com.pustovalov.entity.Match;
+import com.pustovalov.dto.CreateMatchDtoReq;
 import com.pustovalov.service.OngoingMatchService;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -15,21 +14,20 @@ import java.util.Map;
 @WebServlet("/new-match")
 public class NewMatchServlet extends BaseServlet {
     private OngoingMatchService ongoingMatchService;
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("WEB-INF/jsp/new-match.jsp").forward(req,resp);
+    protected void doGet(HttpServletRequest req,
+                         HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("WEB-INF/jsp/new-match.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Map<String, String> params = getParamsFromBody(req);
-        NewMatchDto newMatch = new NewMatchDto(
-                params.get("player-one-name"),
-                params.get("player-two-name")
-                );
+        CreateMatchDtoReq newMatch = new CreateMatchDtoReq(params.get("player-one-name"),
+                params.get("player-two-name"));
 
-        Match savedMatch = ongoingMatchService.saveInMemory(newMatch);
-        resp.sendRedirect("/match-score?uuid=" + savedMatch.getExternalId());
+        resp.sendRedirect("/match-score?uuid=" + ongoingMatchService.create(newMatch));
     }
 
     @Override

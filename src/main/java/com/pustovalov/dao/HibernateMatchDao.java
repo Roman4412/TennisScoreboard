@@ -12,6 +12,10 @@ public class HibernateMatchDao implements MatchDao<UUID> {
     private static volatile HibernateMatchDao instance;
     private final SessionFactory sessionFactory;
 
+    public HibernateMatchDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     public static HibernateMatchDao getInstance() {
         if (instance == null) {
             synchronized(HibernateMatchDao.class) {
@@ -21,10 +25,6 @@ public class HibernateMatchDao implements MatchDao<UUID> {
             }
         }
         return instance;
-    }
-
-    public HibernateMatchDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
     }
 
     @Override
@@ -66,15 +66,15 @@ public class HibernateMatchDao implements MatchDao<UUID> {
 
     public Long getRowsAmount() {
         String queryString = "select count(*) from Match";
-        return sessionFactory.getCurrentSession().createQuery(queryString, Long.class).uniqueResult();
+        return sessionFactory.getCurrentSession()
+                .createQuery(queryString, Long.class)
+                .uniqueResult();
     }
 
     public Long getRowsAmount(String name) {
         String queryString = "select count(*) from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name)";
-        return sessionFactory.getCurrentSession()
-                .createQuery(queryString, Long.class)
-                .setParameter("name", "%" + name + "%")
-                .uniqueResult();
+        return sessionFactory.getCurrentSession().createQuery(queryString, Long.class).setParameter(
+                "name", "%" + name + "%").uniqueResult();
     }
 
 }

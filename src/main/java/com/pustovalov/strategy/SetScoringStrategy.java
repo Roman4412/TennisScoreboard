@@ -5,6 +5,11 @@ import com.pustovalov.enums.ScoreUnits;
 public class SetScoringStrategy extends ScoringStrategy {
     private static final int GAMES_TO_WIN = 6;
     private static final int SET_WIN_MARGIN = 2;
+
+    public SetScoringStrategy(Score score) {
+        super(score);
+    }
+
     @Override
     public void count(Long playerId) {
         Long opponentId = score.getMatch().getOpponentId(playerId);
@@ -28,10 +33,6 @@ public class SetScoringStrategy extends ScoringStrategy {
         } else {
             score.changeStrategy(new GameScoringStrategy(score));
         }
-    }
-
-    public SetScoringStrategy(Score score) {
-        super(score);
     }
 
 }

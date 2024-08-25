@@ -6,11 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
+
 @Getter
 
 @Entity
-@Table(name = "matches", uniqueConstraints =
-@UniqueConstraint(columnNames = {"player_one_id", "player_two_id"}))
+@Table(name = "matches",
+       uniqueConstraints = @UniqueConstraint(columnNames = {"player_one_id", "player_two_id"}))
 public class Match {
 
     @Setter
@@ -31,7 +32,7 @@ public class Match {
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="winner_id")
+    @JoinColumn(name = "winner_id")
     private Player Winner;
 
     @Setter
@@ -43,6 +44,7 @@ public class Match {
 
     @Transient
     private Score score;
+
     public void finish() {
         isFinished = true;
     }
@@ -61,8 +63,9 @@ public class Match {
         this.score = score;
         score.setMatch(this);
     }
+
     public Long getOpponentId(Long playerId) {
-        Long playerOneId =playerOne.getId();
+        Long playerOneId = playerOne.getId();
         Long playerTwoId = playerTwo.getId();
 
         if (playerOneId.equals(playerId)) {
@@ -77,6 +80,7 @@ public class Match {
         this.playerTwo = playerTwo;
         this.externalId = externalId;
     }
+
     public Match() {
 
     }

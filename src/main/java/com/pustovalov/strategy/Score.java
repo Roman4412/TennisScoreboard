@@ -16,7 +16,7 @@ public class Score {
 
     private Map<Long, ScoreContainer> currentScore;
 
-    private Map <Long, ScoreContainer> matchResults;
+    private Map<Long, ScoreContainer> matchResults;
 
     private Match match;
 
@@ -25,11 +25,13 @@ public class Score {
     public void count(Long playerId) {
         scoringStrategy.count(playerId);
     }
+
     public String getPoints(Long playerId, ScoreUnits scoreUnit) {
         if (currentScore.containsKey(playerId)) {
             return currentScore.get(playerId).getPoint(scoreUnit);
         } else {
-            throw new RuntimeException(String.format("there is no info for a player named %S", playerId));
+            throw new RuntimeException(
+                    String.format("there is no info for a player named %S", playerId));
         }
     }
 
@@ -37,7 +39,8 @@ public class Score {
         if (currentScore.containsKey(playerId)) {
             return matchResults.get(playerId).getAllPoints(units);
         } else {
-            throw new RuntimeException(String.format("there is no info for a player named %S", playerId));
+            throw new RuntimeException(
+                    String.format("there is no info for a player named %S", playerId));
         }
     }
 
@@ -46,7 +49,8 @@ public class Score {
             ScoreContainer scoreContainer = currentScore.get(playerId);
             scoreContainer.addPoint(scoreUnit, value);
         } else {
-            throw new RuntimeException(String.format("there is no info for a player named %S", playerId));
+            throw new RuntimeException(
+                    String.format("there is no info for a player named %S", playerId));
         }
     }
 
@@ -62,7 +66,7 @@ public class Score {
         String playerOnePts = getPoints(playerOneId, units);
         String playerTwoPts = getPoints(playerTwoId, units);
 
-        matchResults.get(playerOneId).addPoint(units,playerOnePts);
+        matchResults.get(playerOneId).addPoint(units, playerOnePts);
         matchResults.get(playerTwoId).addPoint(units, playerTwoPts);
     }
 
@@ -84,8 +88,8 @@ public class Score {
         currentScore.put(playerTwoId, new ScoreContainer(ZERO));
 
         matchResults = new ConcurrentHashMap<>();
-        matchResults.put(playerOneId,new ScoreContainer());
-        matchResults.put(playerTwoId,new ScoreContainer());
+        matchResults.put(playerOneId, new ScoreContainer());
+        matchResults.put(playerTwoId, new ScoreContainer());
         scoringStrategy = new GameScoringStrategy(this);
     }
 

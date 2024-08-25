@@ -73,9 +73,4 @@ public class ScoreContainer {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Points{" + "game=" + game + ", tiebreak=" + tiebreak + ", set=" + set + ", match=" + match + '}';
-    }
-
 }

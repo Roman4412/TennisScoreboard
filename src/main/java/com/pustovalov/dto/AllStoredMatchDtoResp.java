@@ -8,7 +8,7 @@ import java.util.List;
 
 @Builder
 @Getter
-public class StoredMatchResponse {
+public class AllStoredMatchDtoResp {
 
     private List<Match> matches;
 

@@ -11,18 +11,8 @@ public class HibernatePlayerDao implements PlayerDao {
     private static volatile HibernatePlayerDao instance;
     private final SessionFactory sessionFactory;
 
-    @Override
-    public Player save(Player entity) {
-        sessionFactory.getCurrentSession().persist(entity);
-        return entity;
-    }
-
-    @Override
-    public Optional<Player> findByName(String name) {
-        return sessionFactory.getCurrentSession()
-                .createQuery("select p from Player p where p.name = :name", Player.class)
-                .setParameter("name", name)
-                .uniqueResultOptional();
+    private HibernatePlayerDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public static HibernatePlayerDao getInstance() {
@@ -36,8 +26,17 @@ public class HibernatePlayerDao implements PlayerDao {
         return instance;
     }
 
-    private HibernatePlayerDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    @Override
+    public Player save(Player entity) {
+        sessionFactory.getCurrentSession().persist(entity);
+        return entity;
+    }
+
+    @Override
+    public Optional<Player> findByName(String name) {
+        return sessionFactory.getCurrentSession().createQuery(
+                "select p from Player p where p.name = :name", Player.class).setParameter("name",
+                name).uniqueResultOptional();
     }
 
 }

@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class MatchScoreResponse {
+public class MatchScoreDtoResp {
 
     private String uuid;
 
@@ -31,4 +31,5 @@ public class MatchScoreResponse {
     private String playerTwoTiebreakPts;
 
     private boolean isFinished;
+
 }

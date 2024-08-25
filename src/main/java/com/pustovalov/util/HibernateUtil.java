@@ -6,10 +6,13 @@ import org.hibernate.cfg.Configuration;
 public final class HibernateUtil {
     private static volatile SessionFactory sessionFactory;
 
+    private HibernateUtil() {
+    }
+
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             synchronized(HibernateUtil.class) {
-                if(sessionFactory == null) {
+                if (sessionFactory == null) {
                     Configuration configuration = new Configuration();
                     configuration.configure();
                     sessionFactory = configuration.buildSessionFactory();
@@ -17,9 +20,6 @@ public final class HibernateUtil {
             }
         }
         return sessionFactory;
-    }
-
-    private HibernateUtil() {
     }
 
 }

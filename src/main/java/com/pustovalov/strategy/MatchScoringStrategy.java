@@ -6,6 +6,10 @@ import com.pustovalov.enums.ScoreUnits;
 
 public class MatchScoringStrategy extends ScoringStrategy {
 
+    public MatchScoringStrategy(Score score) {
+        super(score);
+    }
+
     @Override
     public void count(Long playerId) {
         int playerScore = Integer.parseInt(score.getPoints(playerId, ScoreUnits.MATCH));
@@ -19,8 +23,9 @@ public class MatchScoringStrategy extends ScoringStrategy {
             score.saveScore(ScoreUnits.MATCH);
             match.setWinner(defineWinner(playerId));
             match.finish();
-            System.out.println("FIRST: "+score.getMatchResults().get(playerId));
-            System.out.println("SECOND: " + score.getMatchResults().get(score.getMatch().getOpponentId(playerId)));
+            System.out.println("FIRST: " + score.getMatchResults().get(playerId));
+            System.out.println("SECOND: " + score.getMatchResults()
+                    .get(score.getMatch().getOpponentId(playerId)));
         } else {
             score.changeStrategy(new GameScoringStrategy(this.score));
         }
@@ -31,10 +36,6 @@ public class MatchScoringStrategy extends ScoringStrategy {
         Player playerTwo = score.getMatch().getPlayerTwo();
 
         return playerOne.getId().equals(playerId) ? playerOne : playerTwo;
-    }
-
-    public MatchScoringStrategy(Score score) {
-        super(score);
     }
 
 }

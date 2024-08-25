@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class NewMatchDto {
+public class CreateMatchDtoReq {
 
     private String playerOneName;
 

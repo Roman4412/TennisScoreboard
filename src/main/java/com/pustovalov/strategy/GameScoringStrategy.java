@@ -9,6 +9,10 @@ public class GameScoringStrategy extends ScoringStrategy {
     private static final String FORTY_PTS = "40";
     private static final String ADVANTAGE = "AD";
 
+    public GameScoringStrategy(Score score) {
+        super(score);
+    }
+
     @Override
     public void count(Long playerId) {
         Long opponentId = score.getMatch().getOpponentId(playerId);
@@ -37,10 +41,6 @@ public class GameScoringStrategy extends ScoringStrategy {
                 score.getScoringStrategy().count(playerId);
             }
         }
-    }
-
-    public GameScoringStrategy(Score score) {
-        super(score);
     }
 
 }

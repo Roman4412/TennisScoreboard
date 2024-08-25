@@ -18,10 +18,7 @@ public class Player {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name",
-            unique = true,
-            nullable = false,
-            length = 64)
+    @Column(name = "name", unique = true, nullable = false, length = 64)
     private String name;
 
     public Player(String name) {
