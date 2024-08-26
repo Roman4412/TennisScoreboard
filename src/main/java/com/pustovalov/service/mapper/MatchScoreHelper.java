@@ -1,34 +1,14 @@
 package com.pustovalov.service.mapper;
 
-import com.pustovalov.dto.response.MatchScoreDto;
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.Player;
 import com.pustovalov.enums.ScoreUnits;
 import com.pustovalov.strategy.Score;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 @Mapper
-public interface MatchScoreMapper {
-    @Mapping(source = "match.externalId", target = "uuid")
-    @Mapping(source = "match", qualifiedByName = "getPlayerOne", target = "playerOne")
-    @Mapping(source = "match", qualifiedByName = "getPlayerOneGamePts", target = "playerOneGamePts")
-    @Mapping(source = "match", qualifiedByName = "getPlayerOneSetPts", target = "playerOneSetPts")
-    @Mapping(source = "match", qualifiedByName = "getPlayerOneMatchPts",
-             target = "playerOneMatchPts")
-    @Mapping(source = "match", qualifiedByName = "getPlayerOneTiebreakPts",
-             target = "playerOneTiebreakPts")
-
-    @Mapping(source = "match", qualifiedByName = "getPlayerTwo", target = "playerTwo")
-    @Mapping(source = "match", qualifiedByName = "getPlayerTwoGamePts", target = "playerTwoGamePts")
-    @Mapping(source = "match", qualifiedByName = "getPlayerTwoSetPts", target = "playerTwoSetPts")
-    @Mapping(source = "match", qualifiedByName = "getPlayerTwoMatchPts",
-             target = "playerTwoMatchPts")
-    @Mapping(source = "match", qualifiedByName = "getPlayerTwoTiebreakPts",
-             target = "playerTwoTiebreakPts")
-    MatchScoreDto toMatchScoreDto(Match match);
-
+public interface MatchScoreHelper {
     @Named(value = "getPlayerOne")
     default Player getPlayerOneName(Match match) {
         return match.getPlayerOne();

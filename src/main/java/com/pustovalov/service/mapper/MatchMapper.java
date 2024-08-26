@@ -12,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 import java.util.Map;
 
-@Mapper(uses = {CreateMatchMapper.class, MatchResultMapper.class, MatchScoreMapper.class, StoredMatchesMapper.class})
+@Mapper(uses = {MatchResultHelper.class, MatchScoreHelper.class})
 public interface MatchMapper {
     MatchMapper INSTANCE = Mappers.getMapper(MatchMapper.class);
 
