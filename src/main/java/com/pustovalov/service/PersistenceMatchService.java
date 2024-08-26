@@ -1,11 +1,11 @@
 package com.pustovalov.service;
 
 import com.pustovalov.dao.HibernateMatchDao;
-import com.pustovalov.dto.AllStoredMatchDtoResp;
-import com.pustovalov.dto.MatchResultDtoResp;
+import com.pustovalov.dto.response.AllStoredMatchDto;
+import com.pustovalov.dto.response.MatchResultDto;
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.Player;
-import com.pustovalov.enums.ScoreUnits;
+import com.pustovalov.service.mapper.MatchMapper;
 import com.pustovalov.strategy.Score;
 
 import java.util.List;
@@ -17,10 +17,13 @@ public class PersistenceMatchService {
     private final HibernateMatchDao hibernateMatchDao;
     private final OngoingMatchService ongoingMatchService;
 
+    private final MatchMapper mapper;
+
     public PersistenceMatchService(HibernateMatchDao hibernateMatchDao,
                                    OngoingMatchService ongoingMatchService) {
         this.hibernateMatchDao = hibernateMatchDao;
         this.ongoingMatchService = ongoingMatchService;
+        this.mapper = MatchMapper.INSTANCE;
     }
 
     public static PersistenceMatchService getInstance() {
@@ -35,7 +38,7 @@ public class PersistenceMatchService {
         return instance;
     }
 
-    public MatchResultDtoResp save(UUID matchId) {
+    public MatchResultDto save(UUID matchId) {
         Match match = ongoingMatchService.getMatch(matchId);
         hibernateMatchDao.save(match);
         ongoingMatchService.delete(matchId);
@@ -43,33 +46,34 @@ public class PersistenceMatchService {
         Player playerOne = match.getPlayerOne();
         Player playerTwo = match.getPlayerTwo();
         Score score = match.getScore();
-
-        return MatchResultDtoResp.builder()
+        System.out.println(mapper.toMatchResultDto(match));
+        return mapper.toMatchResultDto(match);
+       /* return MatchResultDto.builder()
                 .matchId(matchId)
-                .playerOne(playerOne.getName())
+                .playerOne(playerOne)
                 .playerOneSetPts(score.getResultPoints(playerOne.getId(), ScoreUnits.SET))
                 .playerOneMatchPts(score.getResultPoints(playerOne.getId(), ScoreUnits.MATCH))
-                .playerTwo(playerTwo.getName())
+                .playerTwo(playerTwo)
                 .playerTwoSetPts(score.getResultPoints(playerTwo.getId(), ScoreUnits.SET))
                 .playerTwoMatchPts(score.getResultPoints(playerTwo.getId(), ScoreUnits.MATCH))
-                .build();
+                .build();*/
     }
 
-    public AllStoredMatchDtoResp findAll(int page) {
+    public AllStoredMatchDto findAll(int page) {
         int totalPages = getTotalPages();
         int offset = page * LIMIT;
         List<Match> matches = hibernateMatchDao.findAll(offset, LIMIT);
 
-        return AllStoredMatchDtoResp.builder().totalPages(totalPages).matches(matches).currentPage(
+        return AllStoredMatchDto.builder().totalPages(totalPages).matches(matches).currentPage(
                 page).build();
     }
 
-    public AllStoredMatchDtoResp findAll(int page, String name) {
+    public AllStoredMatchDto findAll(int page, String name) {
         int totalPages = getTotalPages(name);
         int offset = page * LIMIT;
         List<Match> matches = hibernateMatchDao.findByPlayerName(offset, LIMIT, name);
 
-        return AllStoredMatchDtoResp.builder()
+        return AllStoredMatchDto.builder()
                 .totalPages(totalPages)
                 .matches(matches)
                 .filterByPlayerName(name)

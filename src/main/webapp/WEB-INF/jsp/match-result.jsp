@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="player">
-    <span>${resp.playerOne}</span>
+    <span>${resp.playerOne.name}</span>
 </div>
 <div class="score">
     <div class="match-points">
@@ -34,7 +34,7 @@
     </div>
 </div>
 <div class="player">
-    <span>${resp.playerTwo}</span>
+    <span>${resp.playerTwo.name}</span>
 </div>
 <div>
     <a href="http://localhost:8080/new-match">main</a>

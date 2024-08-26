@@ -1,4 +1,4 @@
-package com.pustovalov.dto;
+package com.pustovalov.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CreateMatchDtoReq {
+public class CreateMatchDto {
 
     private String playerOneName;
 

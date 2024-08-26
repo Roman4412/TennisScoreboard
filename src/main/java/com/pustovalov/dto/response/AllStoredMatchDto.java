@@ -1,4 +1,4 @@
-package com.pustovalov.dto;
+package com.pustovalov.dto.response;
 
 import com.pustovalov.entity.Match;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Builder
 @Getter
-public class AllStoredMatchDtoResp {
+public class AllStoredMatchDto {
 
     private List<Match> matches;
 

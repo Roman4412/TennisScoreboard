@@ -1,4 +1,4 @@
-package com.pustovalov.dto;
+package com.pustovalov.dto.response;
 
 import com.pustovalov.entity.Player;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class MatchScoreDtoResp {
+public class MatchScoreDto {
 
     private String uuid;
 

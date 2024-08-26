@@ -1,6 +1,6 @@
 package com.pustovalov.service;
 
-import com.pustovalov.dto.MatchScoreDtoResp;
+import com.pustovalov.dto.response.MatchScoreDto;
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.Player;
 import com.pustovalov.enums.ScoreUnits;
@@ -38,7 +38,7 @@ public class MatchScoringService {
         return instance;
     }
 
-    public MatchScoreDtoResp countPoint(Long playerId, UUID uuid) {
+    public MatchScoreDto countPoint(Long playerId, UUID uuid) {
         Match match = ongoingMatchService.getMatch(uuid);
 
         Score score = match.getScore();
@@ -47,7 +47,7 @@ public class MatchScoringService {
         Player playerOne = match.getPlayerOne();
         Player playerTwo = match.getPlayerTwo();
 
-        return MatchScoreDtoResp.builder()
+        return MatchScoreDto.builder()
                 .uuid(match.getExternalId().toString())
                 .playerOne(playerOne)
                 .playerOneGamePts(score.getPoints(playerOne.getId(), ScoreUnits.GAME))

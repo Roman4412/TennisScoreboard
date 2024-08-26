@@ -1,6 +1,6 @@
 package com.pustovalov.servlet;
 
-import com.pustovalov.dto.MatchScoreDtoResp;
+import com.pustovalov.dto.response.MatchScoreDto;
 import com.pustovalov.service.MatchScoringService;
 import com.pustovalov.service.OngoingMatchService;
 import com.pustovalov.service.PersistenceMatchService;
@@ -33,7 +33,7 @@ public class MatchScoringServlet extends BaseServlet {
         UUID uuid = UUID.fromString(req.getParameter("uuid"));
         Long playerId = Long.parseLong(req.getParameter("player-id"));
 
-        MatchScoreDtoResp response = matchScoringService.countPoint(playerId, uuid);
+        MatchScoreDto response = matchScoringService.countPoint(playerId, uuid);
 
         if (response.isFinished()) {
             req.setAttribute("resp", persistenceMatchService.save(uuid));

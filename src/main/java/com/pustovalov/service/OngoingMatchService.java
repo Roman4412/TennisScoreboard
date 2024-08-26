@@ -2,8 +2,8 @@ package com.pustovalov.service;
 
 import com.pustovalov.dao.HibernatePlayerDao;
 import com.pustovalov.dao.PlayerDao;
-import com.pustovalov.dto.CreateMatchDtoReq;
-import com.pustovalov.dto.MatchScoreDtoResp;
+import com.pustovalov.dto.request.CreateMatchDto;
+import com.pustovalov.dto.response.MatchScoreDto;
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.Player;
 import com.pustovalov.enums.ScoreUnits;
@@ -35,12 +35,12 @@ public class OngoingMatchService {
         return instance;
     }
 
-    public UUID create(CreateMatchDtoReq createMatchDtoReq) {
-        Player playerOne = hibernatePlayerDao.findByName(createMatchDtoReq.getPlayerOneName())
-                .orElse(hibernatePlayerDao.save(new Player(createMatchDtoReq.getPlayerOneName())));
+    public UUID create(CreateMatchDto createMatchDto) {
+        Player playerOne = hibernatePlayerDao.findByName(createMatchDto.getPlayerOneName())
+                .orElse(hibernatePlayerDao.save(new Player(createMatchDto.getPlayerOneName())));
 
-        Player playerTwo = hibernatePlayerDao.findByName(createMatchDtoReq.getPlayerTwoName())
-                .orElse(hibernatePlayerDao.save(new Player(createMatchDtoReq.getPlayerTwoName())));
+        Player playerTwo = hibernatePlayerDao.findByName(createMatchDto.getPlayerTwoName())
+                .orElse(hibernatePlayerDao.save(new Player(createMatchDto.getPlayerTwoName())));
 
         UUID uuid = UUID.randomUUID();
         Match match = new Match(playerOne, playerTwo, uuid);
@@ -57,12 +57,12 @@ public class OngoingMatchService {
         return currentMatches.get(uuid);
     }
 
-    public MatchScoreDtoResp getMatchForView(UUID uuid) {
+    public MatchScoreDto getMatchForView(UUID uuid) {
         Match match = getMatch(uuid);
         Score score = match.getScore();
         Player playerOne = match.getPlayerOne();
         Player playerTwo = match.getPlayerTwo();
-        return MatchScoreDtoResp.builder()
+        return MatchScoreDto.builder()
                 .uuid(match.getExternalId().toString())
                 .playerOne(playerOne)
                 .playerOneGamePts(score.getPoints(playerOne.getId(), ScoreUnits.GAME))
