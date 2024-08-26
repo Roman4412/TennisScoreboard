@@ -10,18 +10,17 @@ import lombok.Setter;
 @Setter
 public class MatchResultDto {
 
-    private UUID matchId;
+  private UUID matchId;
 
-    private Player playerOne;
+  private Player playerOne;
 
-    private List<String> playerOneSetPts;
+  private List<String> playerOneSetPts;
 
-    private String playerOneMatchPts;
+  private String playerOneMatchPts;
 
-    private Player playerTwo;
+  private Player playerTwo;
 
-    private List<String> playerTwoSetPts;
+  private List<String> playerTwoSetPts;
 
-    private String playerTwoMatchPts;
-
+  private String playerTwoMatchPts;
 }

@@ -8,28 +8,27 @@ import lombok.Setter;
 @Setter
 public class MatchScoreDto {
 
-    private String uuid;
+  private String uuid;
 
-    private Player playerOne;
+  private Player playerOne;
 
-    private String playerOneGamePts;
+  private String playerOneGamePts;
 
-    private String playerOneSetPts;
+  private String playerOneSetPts;
 
-    private String playerOneMatchPts;
+  private String playerOneMatchPts;
 
-    private String playerOneTiebreakPts;
+  private String playerOneTiebreakPts;
 
-    private Player playerTwo;
+  private Player playerTwo;
 
-    private String playerTwoGamePts;
+  private String playerTwoGamePts;
 
-    private String playerTwoSetPts;
+  private String playerTwoSetPts;
 
-    private String playerTwoMatchPts;
+  private String playerTwoMatchPts;
 
-    private String playerTwoTiebreakPts;
+  private String playerTwoTiebreakPts;
 
-    private boolean isFinished;
-
+  private boolean isFinished;
 }

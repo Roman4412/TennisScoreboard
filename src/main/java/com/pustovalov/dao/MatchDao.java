@@ -5,14 +5,13 @@ import java.util.List;
 
 public interface MatchDao {
 
-    Match save(Match match);
+  Match save(Match match);
 
-    List<Match> findAll(int offset, int limit);
+  List<Match> findAll(int offset, int limit);
 
-    List<Match> findByPlayerName(int offset, int limit, String name);
+  List<Match> findByPlayerName(int offset, int limit, String name);
 
-    Long getRowsAmount();
+  Long getRowsAmount();
 
-    Long getRowsAmount(String name);
-
+  Long getRowsAmount(String name);
 }
