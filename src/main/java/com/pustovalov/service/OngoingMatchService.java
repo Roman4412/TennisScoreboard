@@ -6,7 +6,7 @@ import com.pustovalov.dto.request.CreateMatchDto;
 import com.pustovalov.dto.response.MatchScoreDto;
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.Player;
-import com.pustovalov.enums.ScoreUnits;
+import com.pustovalov.service.mapper.MatchMapper;
 import com.pustovalov.strategy.Score;
 
 import java.util.Map;
@@ -18,10 +18,12 @@ public class OngoingMatchService {
     private static volatile OngoingMatchService instance;
     private final PlayerDao hibernatePlayerDao;
     private final Map<UUID, Match> currentMatches;
+    private final MatchMapper mapper;
 
     private OngoingMatchService(PlayerDao hibernatePlayerDao) {
         this.hibernatePlayerDao = hibernatePlayerDao;
         currentMatches = new ConcurrentHashMap<>();
+        mapper = MatchMapper.INSTANCE;
     }
 
     public static OngoingMatchService getInstance() {
@@ -58,24 +60,7 @@ public class OngoingMatchService {
     }
 
     public MatchScoreDto getMatchForView(UUID uuid) {
-        Match match = getMatch(uuid);
-        Score score = match.getScore();
-        Player playerOne = match.getPlayerOne();
-        Player playerTwo = match.getPlayerTwo();
-        return MatchScoreDto.builder()
-                .uuid(match.getExternalId().toString())
-                .playerOne(playerOne)
-                .playerOneGamePts(score.getPoints(playerOne.getId(), ScoreUnits.GAME))
-                .playerOneSetPts(score.getPoints(playerOne.getId(), ScoreUnits.SET))
-                .playerOneMatchPts(score.getPoints(playerOne.getId(), ScoreUnits.MATCH))
-                .playerOneTiebreakPts(score.getPoints(playerOne.getId(), ScoreUnits.TIEBREAK))
-                .playerTwo(playerTwo)
-                .playerTwoGamePts(score.getPoints(playerTwo.getId(), ScoreUnits.GAME))
-                .playerTwoSetPts(score.getPoints(playerTwo.getId(), ScoreUnits.SET))
-                .playerTwoMatchPts(score.getPoints(playerTwo.getId(), ScoreUnits.MATCH))
-                .playerTwoTiebreakPts(score.getPoints(playerTwo.getId(), ScoreUnits.TIEBREAK))
-                .isFinished(match.isFinished())
-                .build();
+        return mapper.toMatchScoreDto(getMatch(uuid));
     }
 
     public void delete(UUID uuid) {

@@ -1,11 +1,12 @@
 package com.pustovalov.dto.response;
 
 import com.pustovalov.entity.Player;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
-@Builder
+
 @Getter
+@Setter
 public class MatchScoreDto {
 
     private String uuid;

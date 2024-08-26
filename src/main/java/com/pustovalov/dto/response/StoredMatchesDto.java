@@ -1,14 +1,15 @@
 package com.pustovalov.dto.response;
 
 import com.pustovalov.entity.Match;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Builder
+
 @Getter
-public class AllStoredMatchDto {
+@Setter
+public class StoredMatchesDto {
 
     private List<Match> matches;
 
@@ -19,6 +20,3 @@ public class AllStoredMatchDto {
     private int currentPage;
 
 }
-
-
-

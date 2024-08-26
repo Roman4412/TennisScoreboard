@@ -1,63 +1,55 @@
 package com.pustovalov.service.mapper;
 
+import com.pustovalov.dto.request.CreateMatchDto;
 import com.pustovalov.dto.response.MatchResultDto;
+import com.pustovalov.dto.response.MatchScoreDto;
+import com.pustovalov.dto.response.StoredMatchesDto;
 import com.pustovalov.entity.Match;
-import com.pustovalov.enums.ScoreUnits;
-import com.pustovalov.strategy.Score;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.Map;
 
-@Mapper
+@Mapper(uses = {CreateMatchMapper.class, MatchResultMapper.class, MatchScoreMapper.class, StoredMatchesMapper.class})
 public interface MatchMapper {
     MatchMapper INSTANCE = Mappers.getMapper(MatchMapper.class);
 
-    /* return MatchResultDto.builder()
-         .matchId(matchId)
-         .playerOne(playerOne)
-         .playerOneSetPts(score.getResultPoints(playerOne.getId(), ScoreUnits.SET))
-         .playerOneMatchPts(score.getResultPoints(playerOne.getId(), ScoreUnits.MATCH))
-         .playerTwo(playerTwo)
-         .playerTwoSetPts(score.getResultPoints(playerTwo.getId(), ScoreUnits.SET))
-         .playerTwoMatchPts(score.getResultPoints(playerTwo.getId(), ScoreUnits.MATCH))
-         .build();*/
+    @Mapping(source = "player-one-name", target = "playerOneName")
+    @Mapping(source = "player-two-name", target = "playerTwoName")
+    CreateMatchDto toCreateMatchDto(Map<String, String> params);
+
     @Mapping(source = "externalId", target = "matchId")
-    @Mapping(source = "match", qualifiedByName = "playerOneSetPts", target = "playerOneSetPts")
-    @Mapping(source = "match", qualifiedByName = "playerTwoSetPts", target = "playerTwoSetPts")
-    @Mapping(source = "match", qualifiedByName = "playerOneMatchPts", target = "playerOneMatchPts")
-    @Mapping(source = "match", qualifiedByName = "playerTwoMatchPts", target = "playerTwoMatchPts")
+    @Mapping(source = "match", qualifiedByName = "getPlayerOneSetResult",
+             target = "playerOneSetPts")
+    @Mapping(source = "match", qualifiedByName = "getPlayerTwoSetResult",
+             target = "playerTwoSetPts")
+    @Mapping(source = "match", qualifiedByName = "getPlayerOneMatchResult",
+             target = "playerOneMatchPts")
+    @Mapping(source = "match", qualifiedByName = "getPlayerTwoMatchResult",
+             target = "playerTwoMatchPts")
     MatchResultDto toMatchResultDto(Match match);
+    @Mapping(source = "match.externalId", target = "uuid")
+    @Mapping(source = "match", qualifiedByName = "getPlayerOne", target = "playerOne")
+    @Mapping(source = "match", qualifiedByName = "getPlayerOneGamePts", target = "playerOneGamePts")
+    @Mapping(source = "match", qualifiedByName = "getPlayerOneSetPts", target = "playerOneSetPts")
+    @Mapping(source = "match", qualifiedByName = "getPlayerOneMatchPts",
+             target = "playerOneMatchPts")
+    @Mapping(source = "match", qualifiedByName = "getPlayerOneTiebreakPts",
+             target = "playerOneTiebreakPts")
 
-    @Named(value = "playerOneSetPts")
-    default List<String> getPlayerOneSetPts(Match match) {
-        Score score = match.getScore();
-        Long id = match.getPlayerOne().getId();
-        return score.getResultPoints(id, ScoreUnits.SET);
-    }
-
-    @Named(value = "playerTwoSetPts")
-    default List<String> getPlayerTwoSetPts(Match match) {
-        Score score = match.getScore();
-        Long id = match.getPlayerTwo().getId();
-        return score.getResultPoints(id, ScoreUnits.SET);
-    }
-
-
-    @Named(value = "playerOneMatchPts")
-    default String getPlayerOneMatchPts(Match match) {
-        Score score = match.getScore();
-        Long id = match.getPlayerOne().getId();
-        return score.getResultPoints(id, ScoreUnits.MATCH).get(0);
-    }
-
-    @Named(value = "playerTwoMatchPts")
-    default String getPlayerTwoMatchPts(Match match) {
-        Score score = match.getScore();
-        Long id = match.getPlayerTwo().getId();
-        return score.getResultPoints(id, ScoreUnits.MATCH).get(0);
-    }
+    @Mapping(source = "match", qualifiedByName = "getPlayerTwo", target = "playerTwo")
+    @Mapping(source = "match", qualifiedByName = "getPlayerTwoGamePts", target = "playerTwoGamePts")
+    @Mapping(source = "match", qualifiedByName = "getPlayerTwoSetPts", target = "playerTwoSetPts")
+    @Mapping(source = "match", qualifiedByName = "getPlayerTwoMatchPts",
+             target = "playerTwoMatchPts")
+    @Mapping(source = "match", qualifiedByName = "getPlayerTwoTiebreakPts",
+             target = "playerTwoTiebreakPts")
+    MatchScoreDto toMatchScoreDto(Match match);
+    StoredMatchesDto toStoredMatchesDto(List<Match> matches, int totalPages, int currentPage);
+    @Mapping(source = "name", target = "filterByPlayerName")
+    StoredMatchesDto toStoredMatchesDto(List<Match> matches, String name, int totalPages,
+                                        int currentPage);
 
 }

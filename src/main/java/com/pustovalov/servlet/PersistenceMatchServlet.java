@@ -1,7 +1,7 @@
 package com.pustovalov.servlet;
 
 import com.pustovalov.dao.HibernateMatchDao;
-import com.pustovalov.dto.response.AllStoredMatchDto;
+import com.pustovalov.dto.response.StoredMatchesDto;
 import com.pustovalov.service.OngoingMatchService;
 import com.pustovalov.service.PersistenceMatchService;
 import jakarta.servlet.ServletException;
@@ -24,7 +24,7 @@ public class PersistenceMatchServlet extends BaseServlet {
         String filterByPlayerName = req.getParameter("filter-by-player-name");
         String page = req.getParameter("page");
         int preparedPage = page == null ? DEFAULT_PAGE : parseInt(page);
-        AllStoredMatchDto response;
+        StoredMatchesDto response;
 
         if (filterByPlayerName == null || filterByPlayerName.isBlank()) {
             response = persistenceMatchService.findAll(preparedPage);
