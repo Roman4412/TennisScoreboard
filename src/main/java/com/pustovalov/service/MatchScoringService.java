@@ -12,34 +12,33 @@ import lombok.Setter;
 @Getter
 public class MatchScoringService {
 
-    private static volatile MatchScoringService instance;
+  private static volatile MatchScoringService instance;
 
-    private final OngoingMatchService ongoingMatchService;
+  private final OngoingMatchService ongoingMatchService;
 
-    private final MatchMapper mapper;
+  private final MatchMapper mapper;
 
-    private MatchScoringService(OngoingMatchService ongoingMatchService) {
-        this.ongoingMatchService = ongoingMatchService;
-        mapper = MatchMapper.INSTANCE;
-    }
+  private MatchScoringService(OngoingMatchService ongoingMatchService) {
+    this.ongoingMatchService = ongoingMatchService;
+    mapper = MatchMapper.INSTANCE;
+  }
 
-    public static MatchScoringService getInstance() {
+  public static MatchScoringService getInstance() {
+    if (instance == null) {
+      synchronized (MatchScoringService.class) {
         if (instance == null) {
-            synchronized(MatchScoringService.class) {
-                if (instance == null) {
-                    instance = new MatchScoringService(OngoingMatchService.getInstance());
-                }
-            }
+          instance = new MatchScoringService(OngoingMatchService.getInstance());
         }
-        return instance;
+      }
     }
+    return instance;
+  }
 
-    public MatchScoreDto countPoint(Long playerId, UUID uuid) {
-        Match match = ongoingMatchService.getMatch(uuid);
-        Score score = match.getScore();
-        score.count(playerId);
+  public MatchScoreDto countPoint(Long playerId, UUID uuid) {
+    Match match = ongoingMatchService.getMatch(uuid);
+    Score score = match.getScore();
+    score.count(playerId);
 
-        return mapper.toMatchScoreDto(match);
-    }
-
+    return mapper.toMatchScoreDto(match);
+  }
 }

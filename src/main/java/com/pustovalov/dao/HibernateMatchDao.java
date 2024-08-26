@@ -7,62 +7,65 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 
 public class HibernateMatchDao implements MatchDao {
-    private static volatile HibernateMatchDao instance;
-    private final SessionFactory sessionFactory;
+  private static volatile HibernateMatchDao instance;
+  private final SessionFactory sessionFactory;
 
-    public HibernateMatchDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+  public HibernateMatchDao(SessionFactory sessionFactory) {
+    this.sessionFactory = sessionFactory;
+  }
 
-    public static HibernateMatchDao getInstance() {
+  public static HibernateMatchDao getInstance() {
+    if (instance == null) {
+      synchronized (HibernateMatchDao.class) {
         if (instance == null) {
-            synchronized(HibernateMatchDao.class) {
-                if (instance == null) {
-                    instance = new HibernateMatchDao(HibernateUtil.getSessionFactory());
-                }
-            }
+          instance = new HibernateMatchDao(HibernateUtil.getSessionFactory());
         }
-        return instance;
+      }
     }
+    return instance;
+  }
 
-    @Override
-    public Match save(Match match) {
-        sessionFactory.getCurrentSession().persist(match);
-        return match;
-    }
+  @Override
+  public Match save(Match match) {
+    sessionFactory.getCurrentSession().persist(match);
+    return match;
+  }
 
-    public List<Match> findAll(int offset, int limit) {
-        String queryString = "select m from Match m order by m.id desc";
-        return sessionFactory.getCurrentSession()
-                .createQuery(queryString, Match.class)
-                .setMaxResults(limit)
-                .setFirstResult(offset)
-                .list();
+  public List<Match> findAll(int offset, int limit) {
+    String queryString = "select m from Match m order by m.id desc";
+    return sessionFactory
+        .getCurrentSession()
+        .createQuery(queryString, Match.class)
+        .setMaxResults(limit)
+        .setFirstResult(offset)
+        .list();
+  }
 
-    }
+  @Override
+  public List<Match> findByPlayerName(int offset, int limit, String name) {
+    String queryString =
+        "select m from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name) order by m.id desc";
+    return sessionFactory
+        .getCurrentSession()
+        .createQuery(queryString, Match.class)
+        .setParameter("name", "%" + name + "%")
+        .setMaxResults(limit)
+        .setFirstResult(offset)
+        .list();
+  }
 
-    @Override
-    public List<Match> findByPlayerName(int offset, int limit, String name) {
-        String queryString = "select m from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name) order by m.id desc";
-        return sessionFactory.getCurrentSession()
-                .createQuery(queryString, Match.class)
-                .setParameter("name", "%" + name + "%")
-                .setMaxResults(limit)
-                .setFirstResult(offset)
-                .list();
-    }
+  public Long getRowsAmount() {
+    String queryString = "select count(*) from Match";
+    return sessionFactory.getCurrentSession().createQuery(queryString, Long.class).uniqueResult();
+  }
 
-    public Long getRowsAmount() {
-        String queryString = "select count(*) from Match";
-        return sessionFactory.getCurrentSession()
-                .createQuery(queryString, Long.class)
-                .uniqueResult();
-    }
-
-    public Long getRowsAmount(String name) {
-        String queryString = "select count(*) from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name)";
-        return sessionFactory.getCurrentSession().createQuery(queryString, Long.class).setParameter(
-                "name", "%" + name + "%").uniqueResult();
-    }
-
+  public Long getRowsAmount(String name) {
+    String queryString =
+        "select count(*) from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name)";
+    return sessionFactory
+        .getCurrentSession()
+        .createQuery(queryString, Long.class)
+        .setParameter("name", "%" + name + "%")
+        .uniqueResult();
+  }
 }

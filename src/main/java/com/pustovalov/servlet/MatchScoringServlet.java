@@ -14,41 +14,40 @@ import java.util.UUID;
 
 @WebServlet("/match-score")
 public class MatchScoringServlet extends BaseServlet {
-    private OngoingMatchService ongoingMatchService;
-    private MatchScoringService matchScoringService;
-    private PersistenceMatchService persistenceMatchService;
+  private OngoingMatchService ongoingMatchService;
+  private MatchScoringService matchScoringService;
+  private PersistenceMatchService persistenceMatchService;
 
-    @Override
-    protected void doGet(HttpServletRequest req,
-                         HttpServletResponse resp) throws ServletException, IOException {
-        UUID uuid = UUID.fromString(req.getParameter("uuid"));
-        req.setAttribute("resp", ongoingMatchService.getMatchForView(uuid));
-        req.getRequestDispatcher("WEB-INF/jsp/match-score.jsp").forward(req, resp);
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    UUID uuid = UUID.fromString(req.getParameter("uuid"));
+    req.setAttribute("resp", ongoingMatchService.getMatchForView(uuid));
+    req.getRequestDispatcher("WEB-INF/jsp/match-score.jsp").forward(req, resp);
+  }
+
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    UUID uuid = UUID.fromString(req.getParameter("uuid"));
+    Long playerId = Long.parseLong(req.getParameter("player-id"));
+
+    MatchScoreDto response = matchScoringService.countPoint(playerId, uuid);
+
+    if (response.isFinished()) {
+      req.setAttribute("resp", persistenceMatchService.save(uuid));
+      req.getRequestDispatcher("WEB-INF/jsp/match-result.jsp").forward(req, resp);
+    } else {
+      req.setAttribute("resp", response);
+      req.getRequestDispatcher("WEB-INF/jsp/match-score.jsp").forward(req, resp);
     }
+  }
 
-    @Override
-    protected void doPost(HttpServletRequest req,
-                          HttpServletResponse resp) throws ServletException, IOException {
-        UUID uuid = UUID.fromString(req.getParameter("uuid"));
-        Long playerId = Long.parseLong(req.getParameter("player-id"));
-
-        MatchScoreDto response = matchScoringService.countPoint(playerId, uuid);
-
-        if (response.isFinished()) {
-            req.setAttribute("resp", persistenceMatchService.save(uuid));
-            req.getRequestDispatcher("WEB-INF/jsp/match-result.jsp").forward(req, resp);
-        } else {
-            req.setAttribute("resp", response);
-            req.getRequestDispatcher("WEB-INF/jsp/match-score.jsp").forward(req, resp);
-        }
-    }
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        matchScoringService = MatchScoringService.getInstance();
-        ongoingMatchService = OngoingMatchService.getInstance();
-        persistenceMatchService = PersistenceMatchService.getInstance();
-    }
-
+  @Override
+  public void init(ServletConfig config) throws ServletException {
+    super.init(config);
+    matchScoringService = MatchScoringService.getInstance();
+    ongoingMatchService = OngoingMatchService.getInstance();
+    persistenceMatchService = PersistenceMatchService.getInstance();
+  }
 }
