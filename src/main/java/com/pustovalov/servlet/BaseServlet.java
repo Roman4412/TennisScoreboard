@@ -2,7 +2,6 @@ package com.pustovalov.servlet;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URLDecoder;

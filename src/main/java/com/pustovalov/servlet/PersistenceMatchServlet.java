@@ -1,5 +1,7 @@
 package com.pustovalov.servlet;
 
+import static java.lang.Integer.parseInt;
+
 import com.pustovalov.dao.HibernateMatchDao;
 import com.pustovalov.dto.response.StoredMatchesDto;
 import com.pustovalov.service.OngoingMatchService;
@@ -8,10 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
-
-import static java.lang.Integer.parseInt;
 
 @WebServlet("/matches")
 public class PersistenceMatchServlet extends BaseServlet {

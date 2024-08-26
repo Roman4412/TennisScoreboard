@@ -5,12 +5,11 @@ import com.pustovalov.dto.response.MatchResultDto;
 import com.pustovalov.dto.response.MatchScoreDto;
 import com.pustovalov.dto.response.StoredMatchesDto;
 import com.pustovalov.entity.Match;
+import java.util.List;
+import java.util.Map;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
-import java.util.Map;
 
 @Mapper(uses = {MatchResultHelper.class, MatchScoreHelper.class})
 public interface MatchMapper {

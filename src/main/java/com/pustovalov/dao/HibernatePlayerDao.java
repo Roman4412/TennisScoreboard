@@ -2,10 +2,8 @@ package com.pustovalov.dao;
 
 import com.pustovalov.entity.Player;
 import com.pustovalov.util.HibernateUtil;
-import org.hibernate.SessionFactory;
-
 import java.util.Optional;
-
+import org.hibernate.SessionFactory;
 
 public class HibernatePlayerDao implements PlayerDao {
     private static volatile HibernatePlayerDao instance;

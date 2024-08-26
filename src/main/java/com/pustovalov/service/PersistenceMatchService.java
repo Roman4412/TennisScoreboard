@@ -5,7 +5,6 @@ import com.pustovalov.dto.response.MatchResultDto;
 import com.pustovalov.dto.response.StoredMatchesDto;
 import com.pustovalov.entity.Match;
 import com.pustovalov.service.mapper.MatchMapper;
-
 import java.util.List;
 import java.util.UUID;
 

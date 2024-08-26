@@ -4,7 +4,6 @@ import com.pustovalov.entity.Player;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 public class MatchScoreDto {

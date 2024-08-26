@@ -45,6 +45,16 @@ public class Match {
     @Transient
     private Score score;
 
+    public Match(Player playerOne, Player playerTwo, UUID externalId) {
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
+        this.externalId = externalId;
+    }
+
+    public Match() {
+
+    }
+
     public void finish() {
         isFinished = true;
     }
@@ -73,16 +83,6 @@ public class Match {
         } else {
             return playerOneId;
         }
-    }
-
-    public Match(Player playerOne, Player playerTwo, UUID externalId) {
-        this.playerOne = playerOne;
-        this.playerTwo = playerTwo;
-        this.externalId = externalId;
-    }
-
-    public Match() {
-
     }
 
 }

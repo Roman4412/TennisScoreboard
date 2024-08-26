@@ -1,7 +1,6 @@
 package com.pustovalov.dao;
 
 import com.pustovalov.entity.Player;
-
 import java.util.Optional;
 
 public interface PlayerDao {

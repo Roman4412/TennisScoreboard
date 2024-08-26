@@ -1,7 +1,6 @@
 package com.pustovalov.entity;
 
 import com.pustovalov.enums.ScoreUnits;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

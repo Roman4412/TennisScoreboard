@@ -14,27 +14,26 @@ import java.util.UUID;
 
 @WebServlet("/new-match")
 public class NewMatchServlet extends BaseServlet {
-    private OngoingMatchService ongoingMatchService;
-    private MatchMapper mapper;
+  private OngoingMatchService ongoingMatchService;
+  private MatchMapper mapper;
 
-    @Override
-    protected void doGet(HttpServletRequest req,
-                         HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("WEB-INF/jsp/new-match.jsp").forward(req, resp);
-    }
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    req.getRequestDispatcher("WEB-INF/jsp/new-match.jsp").forward(req, resp);
+  }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Map<String, String> params = getParamsFromBody(req);
-        UUID uuid = ongoingMatchService.create(mapper.toCreateMatchDto(params));
-        resp.sendRedirect("/match-score?uuid=" + uuid);
-    }
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    Map<String, String> params = getParamsFromBody(req);
+    UUID uuid = ongoingMatchService.create(mapper.toCreateMatchDto(params));
+    resp.sendRedirect("/match-score?uuid=" + uuid);
+  }
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        ongoingMatchService = OngoingMatchService.getInstance();
-        mapper = MatchMapper.INSTANCE;
-    }
-
+  @Override
+  public void init(ServletConfig config) throws ServletException {
+    super.init(config);
+    ongoingMatchService = OngoingMatchService.getInstance();
+    mapper = MatchMapper.INSTANCE;
+  }
 }

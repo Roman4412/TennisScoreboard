@@ -7,7 +7,8 @@
 </head>
 <body>
 <div>
-    <form action="http://localhost:8080/match-score?uuid=${param.uuid}" method="post" name="player-number">
+    <form action="http://localhost:8080/match-score?uuid=${param.uuid}" method="post"
+          name="player-number">
         <div class="score">
             <section class="name">
                 <div class="score-unit">

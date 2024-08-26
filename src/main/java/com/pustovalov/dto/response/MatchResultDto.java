@@ -1,11 +1,10 @@
 package com.pustovalov.dto.response;
 
 import com.pustovalov.entity.Player;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.List;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

@@ -3,11 +3,10 @@ package com.pustovalov.strategy;
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.ScoreContainer;
 import com.pustovalov.enums.ScoreUnits;
-import lombok.Getter;
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.Getter;
 
 @Getter
 public class Score {

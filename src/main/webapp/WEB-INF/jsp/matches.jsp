@@ -33,7 +33,7 @@
                     <span>${pageNum} / ${totalPages}</span>
                     <button type="submit" name="page" disabled>next</button>
                 </c:when>
-                <c:when test="${pageNum == 0 && totalPages > 1}">
+                <c:when test="${pageNum == 1 && totalPages >= 1}">
                     <button type="submit" name="page" disabled>prev</button>
                     <span>${pageNum} / ${totalPages}</span>
                     <button type="submit" name="page" value="${page + 1}">next</button>

@@ -4,10 +4,9 @@ import com.pustovalov.dto.response.MatchScoreDto;
 import com.pustovalov.entity.Match;
 import com.pustovalov.service.mapper.MatchMapper;
 import com.pustovalov.strategy.Score;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.UUID;
 
 @Setter
 @Getter

@@ -6,17 +6,15 @@ import lombok.Setter;
 
 import java.util.List;
 
-
 @Getter
 @Setter
 public class StoredMatchesDto {
 
-    private List<Match> matches;
+  private List<Match> matches;
 
-    private String filterByPlayerName;
+  private String filterByPlayerName;
 
-    private int totalPages;
+  private int totalPages;
 
-    private int currentPage;
-
+  private int currentPage;
 }

@@ -5,10 +5,8 @@ import com.pustovalov.util.HibernateUtil;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
-public class HibernateMatchDao implements MatchDao<UUID> {
+public class HibernateMatchDao implements MatchDao {
     private static volatile HibernateMatchDao instance;
     private final SessionFactory sessionFactory;
 
@@ -31,16 +29,6 @@ public class HibernateMatchDao implements MatchDao<UUID> {
     public Match save(Match match) {
         sessionFactory.getCurrentSession().persist(match);
         return match;
-    }
-
-    @Override
-    public Optional<Match> findById(UUID id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public void delete(UUID id) {
-
     }
 
     public List<Match> findAll(int offset, int limit) {

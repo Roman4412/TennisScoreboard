@@ -1,14 +1,11 @@
 package com.pustovalov.service;
 
-import com.pustovalov.dao.HibernatePlayerDao;
-import com.pustovalov.dao.PlayerDao;
 import com.pustovalov.dto.request.CreateMatchDto;
 import com.pustovalov.dto.response.MatchScoreDto;
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.Player;
 import com.pustovalov.service.mapper.MatchMapper;
 import com.pustovalov.strategy.Score;
-
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -16,12 +13,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class OngoingMatchService {
     private static volatile OngoingMatchService instance;
-    private final PlayerDao hibernatePlayerDao;
+    private final PlayerService playerService;
     private final Map<UUID, Match> currentMatches;
     private final MatchMapper mapper;
 
-    private OngoingMatchService(PlayerDao hibernatePlayerDao) {
-        this.hibernatePlayerDao = hibernatePlayerDao;
+    private OngoingMatchService(PlayerService playerService) {
+        this.playerService = playerService;
         currentMatches = new ConcurrentHashMap<>();
         mapper = MatchMapper.INSTANCE;
     }
@@ -30,7 +27,7 @@ public class OngoingMatchService {
         if (instance == null) {
             synchronized(OngoingMatchService.class) {
                 if (instance == null) {
-                    instance = new OngoingMatchService(HibernatePlayerDao.getInstance());
+                    instance = new OngoingMatchService(PlayerService.getInstance());
                 }
             }
         }
@@ -38,11 +35,18 @@ public class OngoingMatchService {
     }
 
     public UUID create(CreateMatchDto createMatchDto) {
-        Player playerOne = hibernatePlayerDao.findByName(createMatchDto.getPlayerOneName())
-                .orElse(hibernatePlayerDao.save(new Player(createMatchDto.getPlayerOneName())));
+        String playerOneName = createMatchDto.getPlayerOneName();
+        String playerTwoName = createMatchDto.getPlayerTwoName();
 
-        Player playerTwo = hibernatePlayerDao.findByName(createMatchDto.getPlayerTwoName())
-                .orElse(hibernatePlayerDao.save(new Player(createMatchDto.getPlayerTwoName())));
+        if (playerOneName.equals(playerTwoName)) {
+            throw new RuntimeException();
+        }
+
+        Player playerOne = playerService.findBy(playerOneName).orElseGet(
+                () -> playerService.persist(new Player(playerOneName)));
+
+        Player playerTwo = playerService.findBy(playerTwoName).orElseGet(
+                () -> playerService.persist(new Player(playerTwoName)));
 
         UUID uuid = UUID.randomUUID();
         Match match = new Match(playerOne, playerTwo, uuid);
