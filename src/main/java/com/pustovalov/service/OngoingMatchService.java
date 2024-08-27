@@ -4,6 +4,7 @@ import com.pustovalov.dto.request.CreateMatchDto;
 import com.pustovalov.dto.response.MatchScoreDto;
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.Player;
+import com.pustovalov.exception.InvalidMatchPlayerException;
 import com.pustovalov.service.mapper.MatchMapper;
 import com.pustovalov.strategy.Score;
 import java.util.Map;
@@ -13,12 +14,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class OngoingMatchService {
   private static volatile OngoingMatchService instance;
-  private final PlayerService playerService;
+  private final PlayerPersistenceService playerPersistenceService;
   private final Map<UUID, Match> currentMatches;
   private final MatchMapper mapper;
 
-  private OngoingMatchService(PlayerService playerService) {
-    this.playerService = playerService;
+  private OngoingMatchService(PlayerPersistenceService playerPersistenceService) {
+    this.playerPersistenceService = playerPersistenceService;
     currentMatches = new ConcurrentHashMap<>();
     mapper = MatchMapper.INSTANCE;
   }
@@ -27,7 +28,7 @@ public class OngoingMatchService {
     if (instance == null) {
       synchronized (OngoingMatchService.class) {
         if (instance == null) {
-          instance = new OngoingMatchService(PlayerService.getInstance());
+          instance = new OngoingMatchService(PlayerPersistenceService.getInstance());
         }
       }
     }
@@ -39,18 +40,18 @@ public class OngoingMatchService {
     String playerTwoName = createMatchDto.getPlayerTwoName();
 
     if (playerOneName.equals(playerTwoName)) {
-      throw new RuntimeException();
+      throw new InvalidMatchPlayerException("The player cannot play with himself");
     }
 
     Player playerOne =
-        playerService
+        playerPersistenceService
             .findBy(playerOneName)
-            .orElseGet(() -> playerService.persist(new Player(playerOneName)));
+            .orElseGet(() -> playerPersistenceService.persist(new Player(playerOneName)));
 
     Player playerTwo =
-        playerService
+        playerPersistenceService
             .findBy(playerTwoName)
-            .orElseGet(() -> playerService.persist(new Player(playerTwoName)));
+            .orElseGet(() -> playerPersistenceService.persist(new Player(playerTwoName)));
 
     UUID uuid = UUID.randomUUID();
     Match match = new Match(playerOne, playerTwo, uuid);
@@ -72,9 +73,6 @@ public class OngoingMatchService {
   }
 
   public void delete(UUID uuid) {
-    Match removed = currentMatches.remove(uuid);
-    if (removed == null) {
-      throw new RuntimeException(String.format("The match with uuid %s was not found", uuid));
-    }
+    currentMatches.remove(uuid);
   }
 }

@@ -6,19 +6,19 @@ import com.pustovalov.entity.Player;
 
 import java.util.Optional;
 
-public class PlayerService {
-  private static volatile PlayerService instance;
+public class PlayerPersistenceService {
+  private static volatile PlayerPersistenceService instance;
   private final PlayerDao hibernatePlayerDao;
 
-  private PlayerService(PlayerDao playerDao) {
+  private PlayerPersistenceService(PlayerDao playerDao) {
     this.hibernatePlayerDao = playerDao;
   }
 
-  public static PlayerService getInstance() {
+  public static PlayerPersistenceService getInstance() {
     if (instance == null) {
-      synchronized (PlayerService.class) {
+      synchronized (PlayerPersistenceService.class) {
         if (instance == null) {
-          instance = new PlayerService(HibernatePlayerDao.getInstance());
+          instance = new PlayerPersistenceService(HibernatePlayerDao.getInstance());
         }
       }
     }

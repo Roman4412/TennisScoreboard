@@ -45,6 +45,9 @@ public class PersistenceMatchService {
 
   public StoredMatchesDto findAll(int page) {
     int totalPages = getTotalPages();
+    if (page < 0 || page > getTotalPages()) {
+      throw new IllegalArgumentException("Invalid page number");
+    }
     int offset = page * LIMIT;
     List<Match> matches = hibernateMatchDao.findAll(offset, LIMIT);
 
@@ -52,6 +55,9 @@ public class PersistenceMatchService {
   }
 
   public StoredMatchesDto findAll(int page, String name) {
+    if (page < 0 || page > getTotalPages()) {
+      throw new IllegalArgumentException("Invalid page number");
+    }
     int totalPages = getTotalPages(name);
     int offset = page * LIMIT;
     List<Match> matches = hibernateMatchDao.findByPlayerName(offset, LIMIT, name);

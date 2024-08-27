@@ -1,6 +1,7 @@
-package com.pustovalov.entity;
+package com.pustovalov.strategy;
 
 import com.pustovalov.enums.ScoreUnits;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
