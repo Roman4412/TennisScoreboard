@@ -1,13 +1,3 @@
 package com.pustovalov.dto.request;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-public class CreateMatchDto {
-
-  private String playerOneName;
-
-  private String playerTwoName;
-}
+public record CreateMatchDto(String playerOneName, String playerTwoName) {}

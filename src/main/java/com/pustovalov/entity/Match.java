@@ -1,16 +1,15 @@
 package com.pustovalov.entity;
 
-import com.pustovalov.strategy.Score;
 import jakarta.persistence.*;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Check;
 
 @Getter
 @Entity
-@Table(
-    name = "matches",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"player_one_id", "player_two_id"}))
+@Table(name = "matches")
+@Check(constraints = "player_one_id <> player_two_id")
 public class Match {
 
   @Setter
@@ -34,11 +33,12 @@ public class Match {
   @JoinColumn(name = "winner_id")
   private Player Winner;
 
-  @Setter @Transient private UUID externalId;
+  @Setter
+  private UUID externalId;
 
-  @Transient private boolean isFinished;
+  @Transient private boolean finished;
 
-  @Transient private Score score;
+  @Getter @Transient private Score score;
 
   public Match(Player playerOne, Player playerTwo, UUID externalId) {
     this.playerOne = playerOne;
@@ -49,22 +49,14 @@ public class Match {
   public Match() {}
 
   public void finish() {
-    isFinished = true;
-  }
-
-  public boolean isFinished() {
-    return isFinished;
+    finished = true;
   }
 
   public void setScore(Score score) {
-    if (score == null) {
-      throw new NullPointerException("Can't set a null score");
+    if (this.score == null) {
+      this.score = score;
+      score.setMatch(this);
     }
-    if (score.getMatch() != null) {
-      throw new IllegalStateException("The match has already been set for this relationship");
-    }
-    this.score = score;
-    score.setMatch(this);
   }
 
   public Long getOpponentId(Long playerId) {
@@ -77,4 +69,5 @@ public class Match {
       return playerOneId;
     }
   }
+
 }

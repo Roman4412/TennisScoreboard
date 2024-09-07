@@ -2,9 +2,9 @@ package com.pustovalov.dao;
 
 import com.pustovalov.entity.Match;
 import com.pustovalov.util.HibernateUtil;
-import org.hibernate.SessionFactory;
-
 import java.util.List;
+import java.util.UUID;
+import org.hibernate.SessionFactory;
 
 public class HibernateMatchDao implements MatchDao {
   private static volatile HibernateMatchDao instance;
@@ -67,5 +67,14 @@ public class HibernateMatchDao implements MatchDao {
         .createQuery(queryString, Long.class)
         .setParameter("name", "%" + name + "%")
         .uniqueResult();
+  }
+
+  public boolean isExist(UUID matchId) {
+    String queryString = "select 1 from Match where externalId =:id";
+    return sessionFactory
+            .getCurrentSession()
+            .createQuery(queryString)
+            .setParameter("id", matchId)
+            .uniqueResult() != null;
   }
 }
