@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper()
+@Mapper
 public interface MatchMapper {
   MatchMapper INSTANCE = Mappers.getMapper(MatchMapper.class);
 
