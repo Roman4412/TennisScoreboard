@@ -19,9 +19,6 @@ public interface MatchMapper {
   CreateMatchDto toCreateMatchDto(Map<String, String> params);
 
   @Mapping(source = "match.externalId", target = "uuid")
-  @Mapping(expression = "java(match.getPlayerOne())", target = "playerOne")
-  @Mapping(expression = "java(match.getPlayerTwo())", target = "playerTwo")
-  @Mapping(expression = "java(match.getScore())", target = "score")
   MatchScoreDto toMatchScoreDto(Match match);
 
   StoredMatchesDto toStoredMatchesDto(
