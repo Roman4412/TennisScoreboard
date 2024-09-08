@@ -29,6 +29,9 @@
             </table>
 
             <c:choose>
+                <c:when test="${totalPages == 0}">
+                    <p>Matches not found</p>
+                </c:when>
                 <c:when test="${pageNum == 1 && isLast}">
                     <button type="submit" name="page" disabled>prev</button>
                     <span>${pageNum} / ${totalPages}</span>
