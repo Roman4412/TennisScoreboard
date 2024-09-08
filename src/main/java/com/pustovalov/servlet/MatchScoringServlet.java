@@ -4,20 +4,26 @@ import com.pustovalov.service.MatchScoringService;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
 
+import static com.pustovalov.util.ReqParamValidator.*;
+
 @WebServlet("/match-score")
-public class MatchScoringServlet extends BaseServlet {
+public class MatchScoringServlet extends HttpServlet {
   private MatchScoringService matchScoringService;
   
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    UUID uuid = UUID.fromString(req.getParameter("uuid"));
-    req.setAttribute("resp", matchScoringService.getScoreState(uuid));
+
+    String uuidParam = req.getParameter("uuid");
+    validateUuid(uuidParam);
+
+    req.setAttribute("resp", matchScoringService.getScoreState(UUID.fromString(uuidParam)));
     req.getRequestDispatcher("WEB-INF/jsp/match-score.jsp").forward(req, resp);
   }
 
@@ -25,8 +31,14 @@ public class MatchScoringServlet extends BaseServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    UUID uuid = UUID.fromString(req.getParameter("uuid"));
-    Long playerId = Long.parseLong(req.getParameter("player-id"));
+    String uuidParam = req.getParameter("uuid");
+    String playerIdParam = req.getParameter("player-id");
+
+    validateUuid(uuidParam);
+    validatePlayerId(playerIdParam);
+
+    UUID uuid = UUID.fromString(uuidParam);
+    Long playerId = Long.parseLong(playerIdParam);
 
     matchScoringService.count(uuid, playerId);
     req.setAttribute("resp", matchScoringService.getScoreState(uuid));
