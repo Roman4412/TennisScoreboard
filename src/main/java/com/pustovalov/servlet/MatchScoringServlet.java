@@ -1,7 +1,6 @@
 package com.pustovalov.servlet;
 
 import com.pustovalov.service.MatchScoringService;
-import com.pustovalov.service.OngoingMatchService;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,7 +11,6 @@ import java.util.UUID;
 
 @WebServlet("/match-score")
 public class MatchScoringServlet extends BaseServlet {
-  private OngoingMatchService ongoingMatchService;
   private MatchScoringService matchScoringService;
   
   @Override
@@ -39,6 +37,5 @@ public class MatchScoringServlet extends BaseServlet {
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
     matchScoringService = MatchScoringService.getInstance();
-    ongoingMatchService = OngoingMatchService.getInstance();
   }
 }
