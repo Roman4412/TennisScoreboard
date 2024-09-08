@@ -14,9 +14,7 @@ import org.mapstruct.factory.Mappers;
 public interface MatchMapper {
   MatchMapper INSTANCE = Mappers.getMapper(MatchMapper.class);
 
-  @Mapping(source = "player-one-name", target = "playerOneName")
-  @Mapping(source = "player-two-name", target = "playerTwoName")
-  CreateMatchDto toCreateMatchDto(Map<String, String> params);
+  CreateMatchDto toCreateMatchDto(String playerOneName, String playerTwoName);
 
   @Mapping(source = "match.externalId", target = "uuid")
   MatchScoreDto toMatchScoreDto(Match match);
