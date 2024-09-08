@@ -1,59 +1,66 @@
 package com.pustovalov.service;
 
-import com.pustovalov.dao.HibernatePlayerDao;
-import com.pustovalov.dao.InMemoryMatchDao;
-import com.pustovalov.dao.PlayerDao;
+import com.pustovalov.dto.request.CreateMatchDto;
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.Player;
-import com.pustovalov.dto.CreateMatchDto;
-import com.pustovalov.strategy.Score;
-
+import com.pustovalov.entity.Score;
+import com.pustovalov.exception.InvalidMatchPlayerException;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class OngoingMatchService {
-    private static volatile OngoingMatchService instance;
-    private final PlayerDao hibernatePlayerDao;
-    private final InMemoryMatchDao inMemoryMatchDao;
+  private static volatile OngoingMatchService instance;
+  private final PlayerPersistenceService playerPersistenceService;
+  private final Map<UUID, Match> currentMatches;
+  private OngoingMatchService(PlayerPersistenceService playerPersistenceService) {
+    this.playerPersistenceService = playerPersistenceService;
+    currentMatches = new ConcurrentHashMap<>();
+  }
 
-    public Match saveInMemory(CreateMatchDto createMatchDto) {
-        Player playerOne = hibernatePlayerDao
-                .findByName(createMatchDto.playerOneName())
-                .orElse(hibernatePlayerDao.save(new Player(createMatchDto.playerOneName())));
-
-        Player playerTwo = hibernatePlayerDao
-                .findByName(createMatchDto.playerTwoName())
-                .orElse(hibernatePlayerDao.save(new Player(createMatchDto.playerTwoName())));
-
-        Match match = new Match(playerOne, playerTwo, UUID.randomUUID());
-        match.setScore(new Score());
-
-        return inMemoryMatchDao.save(match);
-    }
-
-    public Match get(UUID matchUuid) {
-        return inMemoryMatchDao.findById(matchUuid).orElseThrow();
-    }
-
-    public static OngoingMatchService getInstance() {
+  public static OngoingMatchService getInstance() {
+    if (instance == null) {
+      synchronized (OngoingMatchService.class) {
         if (instance == null) {
-            synchronized(OngoingMatchService.class) {
-                if (instance == null) {
-                    instance = new OngoingMatchService(
-                            HibernatePlayerDao.getInstance(),
-                            InMemoryMatchDao.getInstance());
-                }
-            }
+          instance = new OngoingMatchService(PlayerPersistenceService.getInstance());
         }
-        return instance;
+      }
+    }
+    return instance;
+  }
+
+  public UUID create(CreateMatchDto createMatchDto) {
+    String playerOneName = createMatchDto.playerOneName();
+    String playerTwoName = createMatchDto.playerTwoName();
+
+    if (playerOneName.equals(playerTwoName)) {
+      throw new InvalidMatchPlayerException("The player cannot play with himself");
     }
 
-    private OngoingMatchService(PlayerDao hibernatePlayerDao, InMemoryMatchDao inMemoryMatchDao) {
-        this.hibernatePlayerDao = hibernatePlayerDao;
-        this.inMemoryMatchDao = inMemoryMatchDao;
-    }
+    Player playerOne =
+        playerPersistenceService
+            .findBy(playerOneName)
+            .orElseGet(() -> playerPersistenceService.persist(new Player(playerOneName)));
 
-    public void delete(UUID uuid) {
-        inMemoryMatchDao.delete(uuid);
-    }
+    Player playerTwo =
+        playerPersistenceService
+            .findBy(playerTwoName)
+            .orElseGet(() -> playerPersistenceService.persist(new Player(playerTwoName)));
 
+    UUID uuid = UUID.randomUUID();
+    Match match = new Match(playerOne, playerTwo, uuid);
+    match.setScore(new Score(playerOne.getId(), playerTwo.getId()));
+    currentMatches.put(uuid, match);
+
+    return uuid;
+  }
+
+  public Optional<Match> getMatch(UUID uuid) {
+    return Optional.ofNullable(currentMatches.get(uuid));
+  }
+
+  public void delete(UUID uuid) {
+    currentMatches.remove(uuid);
+  }
 }

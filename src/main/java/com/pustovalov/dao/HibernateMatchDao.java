@@ -2,79 +2,79 @@ package com.pustovalov.dao;
 
 import com.pustovalov.entity.Match;
 import com.pustovalov.util.HibernateUtil;
+import java.util.List;
+import java.util.UUID;
 import org.hibernate.SessionFactory;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+public class HibernateMatchDao implements MatchDao {
+  private static volatile HibernateMatchDao instance;
+  private final SessionFactory sessionFactory;
 
-public class HibernateMatchDao implements MatchDao<UUID> {
-    private static volatile HibernateMatchDao instance;
-    private final SessionFactory sessionFactory;
+  public HibernateMatchDao(SessionFactory sessionFactory) {
+    this.sessionFactory = sessionFactory;
+  }
 
-    public static HibernateMatchDao getInstance() {
+  public static HibernateMatchDao getInstance() {
+    if (instance == null) {
+      synchronized (HibernateMatchDao.class) {
         if (instance == null) {
-            synchronized(HibernateMatchDao.class) {
-                if (instance == null) {
-                    instance = new HibernateMatchDao(HibernateUtil.getSessionFactory());
-                }
-            }
+          instance = new HibernateMatchDao(HibernateUtil.getSessionFactory());
         }
-        return instance;
+      }
     }
+    return instance;
+  }
 
-    public HibernateMatchDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+  @Override
+  public Match save(Match match) {
+    sessionFactory.getCurrentSession().persist(match);
+    return match;
+  }
 
-    @Override
-    public Match save(Match match) {
-        sessionFactory.getCurrentSession().persist(match);
-        return match;
-    }
+  public List<Match> findAll(int offset, int limit) {
+    String queryString = "select m from Match m order by m.id desc";
+    return sessionFactory
+        .getCurrentSession()
+        .createQuery(queryString, Match.class)
+        .setMaxResults(limit)
+        .setFirstResult(offset)
+        .list();
+  }
 
-    @Override
-    public Optional<Match> findById(UUID id) {
-        return Optional.empty();
-    }
+  @Override
+  public List<Match> findByPlayerName(int offset, int limit, String name) {
+    String queryString =
+        "select m from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name) order by m.id desc";
+    return sessionFactory
+        .getCurrentSession()
+        .createQuery(queryString, Match.class)
+        .setParameter("name", "%" + name + "%")
+        .setMaxResults(limit)
+        .setFirstResult(offset)
+        .list();
+  }
 
-    @Override
-    public void delete(UUID id) {
+  public Long getRowsAmount() {
+    String queryString = "select count(*) from Match";
+    return sessionFactory.getCurrentSession().createQuery(queryString, Long.class).uniqueResult();
+  }
 
-    }
+  public Long getRowsAmount(String name) {
+    String queryString =
+        "select count(*) from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name)";
+    return sessionFactory
+        .getCurrentSession()
+        .createQuery(queryString, Long.class)
+        .setParameter("name", "%" + name + "%")
+        .uniqueResult();
+  }
 
-    public List<Match> findAll(int offset, int limit) {
-        String queryString = "select m from Match m order by m.id desc";
-        return sessionFactory.getCurrentSession()
-                .createQuery(queryString, Match.class)
-                .setMaxResults(limit)
-                .setFirstResult(offset)
-                .list();
-
-    }
-
-    @Override
-    public List<Match> findByPlayerName(int offset, int limit, String name) {
-        String queryString = "select m from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name) order by m.id desc";
-        return sessionFactory.getCurrentSession()
-                .createQuery(queryString, Match.class)
-                .setParameter("name", "%" + name + "%")
-                .setMaxResults(limit)
-                .setFirstResult(offset)
-                .list();
-    }
-
-    public Long getRowsAmount() {
-        String queryString = "select count(*) from Match";
-        return sessionFactory.getCurrentSession().createQuery(queryString, Long.class).uniqueResult();
-    }
-
-    public Long getRowsAmount(String name) {
-        String queryString = "select count(*) from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name)";
-        return sessionFactory.getCurrentSession()
-                .createQuery(queryString, Long.class)
-                .setParameter("name", "%" + name + "%")
-                .uniqueResult();
-    }
-
+  public boolean isExist(UUID matchId) {
+    String queryString = "select 1 from Match where externalId =:id";
+    return sessionFactory
+            .getCurrentSession()
+            .createQuery(queryString)
+            .setParameter("id", matchId)
+            .uniqueResult() != null;
+  }
 }

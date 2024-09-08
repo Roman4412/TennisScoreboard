@@ -1,24 +1,17 @@
 package com.pustovalov.dao;
 
 import com.pustovalov.entity.Match;
-
 import java.util.List;
-import java.util.Optional;
 
-public interface MatchDao<I> {
+public interface MatchDao {
 
-    Match save(Match match);
+  Match save(Match match);
 
-    Optional<Match> findById(I id);
+  List<Match> findAll(int offset, int limit);
 
-    void delete(I id);
+  List<Match> findByPlayerName(int offset, int limit, String name);
 
-    List<Match> findAll(int offset, int limit);
+  Long getRowsAmount();
 
-    List<Match> findByPlayerName(int offset, int limit, String name);
-
-    Long getRowsAmount();
-
-    Long getRowsAmount(String name);
-
+  Long getRowsAmount(String name);
 }

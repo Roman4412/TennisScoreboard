@@ -1,40 +1,40 @@
 package com.pustovalov.strategy;
 
+
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.Player;
-import com.pustovalov.enums.ScoreUnits;
+import com.pustovalov.entity.Score;
+import com.pustovalov.entity.PointUnits;
 
 public class MatchScoringStrategy extends ScoringStrategy {
 
-    @Override
-    public void count(Long playerId) {
-        int playerScore = Integer.parseInt(score.getPoints(playerId, ScoreUnits.MATCH));
-        Match match = score.getMatch();
+  public MatchScoringStrategy(Score score) {
+    super(score);
+  }
+  @Override
+  public void count(Long playerId) {
+    int playerScore = Integer.parseInt(score.getPoint(playerId, PointUnits.MATCH).getValue());
 
-        score.saveScore(ScoreUnits.SET);
-        score.resetScore(ScoreUnits.SET);
-        score.setPoints(playerId, ScoreUnits.MATCH, String.valueOf(++playerScore));
+    score.saveScore(PointUnits.SET);
+    score.resetScore(PointUnits.SET);
+    score.addPoint(playerId, String.valueOf(++playerScore), PointUnits.MATCH);
 
-        if (playerScore == 2) {
-            score.saveScore(ScoreUnits.MATCH);
-            match.setWinner(defineWinner(playerId));
-            match.finish();
-            System.out.println("FIRST: "+score.getMatchResults().get(playerId));
-            System.out.println("SECOND: " + score.getMatchResults().get(score.getMatch().getOpponentId(playerId)));
-        } else {
-            score.changeStrategy(new GameScoringStrategy(this.score));
-        }
+    if (playerScore == 2) {
+      score.saveScore(PointUnits.MATCH);
+      Match match = score.getMatch();
+      match.setWinner(defineWinner(playerId));
+      match.finish();
+    } else {
+      score.changeStrategy(new GameScoringStrategy(score));
     }
+  }
 
-    private Player defineWinner(Long playerId) {
-        Player playerOne = score.getMatch().getPlayerOne();
-        Player playerTwo = score.getMatch().getPlayerTwo();
+  private Player defineWinner(Long playerId) {
+    Match match = score.getMatch();
+    Player playerOne = match.getPlayerOne();
+    Player playerTwo = match.getPlayerTwo();
 
-        return playerOne.getId().equals(playerId) ? playerOne : playerTwo;
-    }
-
-    public MatchScoringStrategy(Score score) {
-        super(score);
-    }
+    return playerOne.getId().equals(playerId) ? playerOne : playerTwo;
+  }
 
 }

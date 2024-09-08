@@ -10,10 +10,12 @@
             <legend>Create new match</legend>
 
             <p><label for="player-one">Player one</label></p>
-            <p><input placeholder="Enter player name" type="text" id="player-one" name="player-one-name"></p>
+            <p><input placeholder="Enter player name" type="text" id="player-one"
+                      name="player-one-name"></p>
 
             <p><label for="player-two">Player two</label></p>
-            <p><input placeholder="Enter player name" type="text" id="player-two" name="player-two-name"></p>
+            <p><input placeholder="Enter player name" type="text" id="player-two"
+                      name="player-two-name"></p>
 
             <p>
                 <button type="submit">Start</button>

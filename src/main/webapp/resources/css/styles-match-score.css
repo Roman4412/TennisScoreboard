@@ -3,6 +3,7 @@
     float: left;
 
 }
+
 .game-unit, .point {
     display: inline-block;
     width: 100px;
