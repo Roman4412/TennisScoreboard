@@ -18,11 +18,15 @@ public class ExceptionFilter implements Filter {
     } catch (InvalidRequestParamException e) {
       HttpServletResponse resp = (HttpServletResponse) response;
       resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-      request.setAttribute("error message", e.getMessage());
-    } catch (InvalidMatchPlayerException | MatchAlreadyPersistException e) {
+      request.setAttribute("errorMessage", e.getMessage());
+    } catch (InvalidMatchPlayerException e) {
       HttpServletResponse resp = (HttpServletResponse) response;
       resp.setStatus(HttpServletResponse.SC_CONFLICT);
-      request.setAttribute("error message", e.getMessage());
+      request.setAttribute("errorMessage", e.getMessage());
+    } catch(MatchAlreadyPersistException e) {
+      HttpServletResponse resp = (HttpServletResponse) response;
+      resp.setStatus(HttpServletResponse.SC_CONFLICT);
+      resp.sendRedirect("/matches");
     }
   }
 }
