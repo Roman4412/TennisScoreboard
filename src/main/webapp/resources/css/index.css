@@ -15,9 +15,10 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 70%;
-    width: 60%;
+    height: 90%;
+    width: 70%;
     background-color: #7a7e80;
+    box-shadow: 6px 10px 30px #7a7e80;
     border-radius: 15px;
 }
 
@@ -26,7 +27,7 @@ body {
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    margin: 1%;
+    margin: 2%;
     width: 50%;
     height: 20%;
     color: #eaf0d8;
@@ -44,4 +45,5 @@ body {
 
 .button:active {
     background-color: #b5ea15;
+    box-shadow: 1px 1px 10px #a4d315;
 }
