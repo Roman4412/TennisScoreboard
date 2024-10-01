@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Matches</title>
+    <link rel="stylesheet" href="../../resources/css/matches.css">
 </head>
 <body>
 <c:set var="page" value="${resp.currentPage()}"/>
@@ -11,23 +12,23 @@
 <c:set var="totalPages" value="${resp.totalPages()}"/>
 <c:set var="isLast" value="${pageNum == totalPages}"/>
 
-<a href="http://localhost:8080/new-match">new match</a>
 
-<div>
-    <form action="http://localhost:8080/matches" method="get">
-        <fieldset>
-            <input type="search" name="filter-by-player-name" value="${resp.filterByPlayerName()}">
+<form action="http://localhost:8080/matches" method="get">
+    <div class="content">
+        <div class="search">
+            <input type="search" name="filter-by-player-name" placeholder="Enter the player name"
+                   value="${resp.filterByPlayerName()}">
             <button type="submit">Search</button>
-            <table>
-                <c:forEach var="m" items="${resp.matches()}">
-                    <tr>
-                        <td>${m.id}</td>
-                        <td>${m.playerOne.name}</td>
-                        <td>${m.playerTwo.name}</td>
-                    </tr>
-                </c:forEach>
-            </table>
-
+        </div>
+        <div class="matches-page">
+            <c:forEach var="m" items="${resp.matches()}">
+                <div class="row">
+                    <p>${m.playerOne.name}</p>
+                    <p>${m.playerTwo.name}</p>
+                </div>
+            </c:forEach>
+        </div>
+        <div class="navigation">
             <c:choose>
                 <c:when test="${totalPages == 0}">
                     <p>Matches not found</p>
@@ -53,9 +54,8 @@
                     <button type="submit" name="page" value="${page + 1}">next</button>
                 </c:otherwise>
             </c:choose>
-
-        </fieldset>
-    </form>
-</div>
+        </div>
+    </div>
+</form>
 </body>
 </html>
