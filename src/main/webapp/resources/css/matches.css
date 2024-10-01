@@ -1,0 +1,139 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    color: #eaf0d8;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f4dc;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+    width: 70%;
+    background-color: #7a7e80;
+    box-shadow: 6px 10px 30px #7a7e80;
+    border-radius: 15px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    height: 84%;
+    width: 61%;
+    padding: 2%;
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    height: 8%;
+}
+
+.search input {
+    width: 74%;
+    height: 100%;
+    border-radius: 5px;
+    border: none;
+    padding: 2%;
+    background-color: #f1f4dc;
+    font-weight: bold;
+    font-size: 125%;
+    font-family: Roboto, serif;
+    color: #7a7e80;
+    box-shadow: 3px 5px 10px #45531c;
+}
+
+input::placeholder {
+    color: #c9ccce;
+}
+
+input:focus {
+    outline: 3px solid #a4d315;
+}
+
+.search button {
+    width: 25%;
+    height: 100%;
+    border-radius: 5px;
+    border: none;
+
+    color: #eaf0d8;
+    background-color: #b6e01d;
+    font-weight: bold;
+    font-size: 135%;
+    font-family: Roboto, serif;
+    box-shadow: 3px 5px 15px #45531c;
+}
+
+.search button, .navigation button:hover {
+    box-shadow: 1px 1px 10px #a4d315;
+}
+
+.search button, .navigation button:active {
+    background-color: #b5ea15;
+    box-shadow: 1px 1px 10px #a4d315;
+}
+
+.search button:disabled {
+    background-color: #7a7e80;
+    box-shadow: 1px 1px 10px #7a7e80;
+}
+
+.matches-page {
+    margin-top: 5%;
+    width: 100%;
+    height: 80%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+    height: fit-content;
+}
+
+.row p {
+    margin: 1.8%;
+    font-size: 113%;
+}
+
+.navigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 25%;
+    height: 5%;
+}
+
+.navigation button {
+    width: 25%;
+    height: 100%;
+    border-radius: 5px;
+    border: none;
+
+    color: #eaf0d8;
+    background-color: #b6e01d;
+    font-weight: bold;
+    font-size: 90%;
+    font-family: Roboto, serif;
+    box-shadow: 3px 5px 15px #45531c;
+}
+
+.navigation span {
+    font-size: 90%;
+}
