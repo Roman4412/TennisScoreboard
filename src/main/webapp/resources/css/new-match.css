@@ -1,6 +1,7 @@
 html, body {
     height: 100%;
     margin: 0;
+    font-family: Roboto, serif;
 }
 
 body {
@@ -35,7 +36,6 @@ input {
     background-color: #f1f4dc;
     font-weight: bold;
     font-size: 135%;
-    font-family: Roboto, serif;
     color: #7a7e80;
     box-shadow: 3px 5px 15px #45531c;
     border-radius: 5px;
@@ -78,4 +78,9 @@ input.error {
 .start-button:active {
     background-color: #b5ea15;
     box-shadow: 1px 1px 10px #a4d315;
+}
+
+.error {
+    color: red;
+    font-size: 130%;
 }
