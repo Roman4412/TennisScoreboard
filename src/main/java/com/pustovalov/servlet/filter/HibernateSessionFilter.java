@@ -10,9 +10,10 @@ import java.io.IOException;
 
 @WebFilter("/*")
 public class HibernateSessionFilter implements Filter {
+
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-      throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+          ServletException {
 
     Transaction transaction = null;
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();

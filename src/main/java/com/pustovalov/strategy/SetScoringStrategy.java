@@ -1,16 +1,16 @@
 package com.pustovalov.strategy;
 
-import com.pustovalov.entity.Score;
 import com.pustovalov.entity.PointUnits;
+import com.pustovalov.entity.Score;
 
 public class SetScoringStrategy extends ScoringStrategy {
   private static final int GAMES_TO_WIN = 6;
+
   private static final int SET_WIN_MARGIN = 2;
 
   public SetScoringStrategy(Score score) {
     super(score);
   }
-
 
   @Override
   public void count(Long playerId) {

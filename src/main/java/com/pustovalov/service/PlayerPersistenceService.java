@@ -7,29 +7,31 @@ import com.pustovalov.entity.Player;
 import java.util.Optional;
 
 public class PlayerPersistenceService {
-  private static volatile PlayerPersistenceService instance;
-  private final PlayerDao hibernatePlayerDao;
 
-  private PlayerPersistenceService(PlayerDao playerDao) {
-    this.hibernatePlayerDao = playerDao;
-  }
+    private static volatile PlayerPersistenceService instance;
 
-  public static PlayerPersistenceService getInstance() {
-    if (instance == null) {
-      synchronized (PlayerPersistenceService.class) {
-        if (instance == null) {
-          instance = new PlayerPersistenceService(HibernatePlayerDao.getInstance());
-        }
-      }
+    private final PlayerDao hibernatePlayerDao;
+
+    private PlayerPersistenceService(PlayerDao playerDao) {
+        this.hibernatePlayerDao = playerDao;
     }
-    return instance;
-  }
 
-  public Optional<Player> findBy(String name) {
-    return hibernatePlayerDao.findByName(name);
-  }
+    public static PlayerPersistenceService getInstance() {
+        if (instance == null) {
+            synchronized (PlayerPersistenceService.class) {
+                if (instance == null) {
+                    instance = new PlayerPersistenceService(HibernatePlayerDao.getInstance());
+                }
+            }
+        }
+        return instance;
+    }
 
-  public Player persist(Player player) {
-    return hibernatePlayerDao.save(player);
-  }
+    public Optional<Player> findBy(String name) {
+        return hibernatePlayerDao.findByName(name);
+    }
+
+    public Player persist(Player player) {
+        return hibernatePlayerDao.save(player);
+    }
 }

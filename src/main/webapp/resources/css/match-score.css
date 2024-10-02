@@ -23,6 +23,7 @@ form {
     box-shadow: 6px 10px 30px #7a7e80;
     border-radius: 15px;
 }
+
 .stats-footer {
     display: flex;
     flex-direction: row;
@@ -68,6 +69,7 @@ form {
 .player-two {
     justify-content: start;
 }
+
 button {
     display: flex;
     justify-content: center;

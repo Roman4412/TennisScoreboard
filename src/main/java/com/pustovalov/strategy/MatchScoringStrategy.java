@@ -3,14 +3,15 @@ package com.pustovalov.strategy;
 
 import com.pustovalov.entity.Match;
 import com.pustovalov.entity.Player;
-import com.pustovalov.entity.Score;
 import com.pustovalov.entity.PointUnits;
+import com.pustovalov.entity.Score;
 
 public class MatchScoringStrategy extends ScoringStrategy {
 
   public MatchScoringStrategy(Score score) {
     super(score);
   }
+
   @Override
   public void count(Long playerId) {
     int playerScore = Integer.parseInt(score.getPoint(playerId, PointUnits.MATCH).getValue());

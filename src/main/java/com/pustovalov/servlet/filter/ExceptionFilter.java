@@ -5,15 +5,16 @@ import com.pustovalov.exception.InvalidRequestParamException;
 import com.pustovalov.exception.MatchAlreadyPersistException;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 @WebFilter("/*")
 public class ExceptionFilter implements Filter {
+
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-      throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+          ServletException {
 
     try {
 
@@ -33,7 +34,7 @@ public class ExceptionFilter implements Filter {
       resp.setStatus(HttpServletResponse.SC_CONFLICT);
       request.setAttribute("errorMessage", e.getMessage());
 
-    } catch(MatchAlreadyPersistException e) {
+    } catch (MatchAlreadyPersistException e) {
 
       e.printStackTrace();
       HttpServletResponse resp = (HttpServletResponse) response;
@@ -41,4 +42,5 @@ public class ExceptionFilter implements Filter {
       resp.sendRedirect("/matches");
     }
   }
+
 }
