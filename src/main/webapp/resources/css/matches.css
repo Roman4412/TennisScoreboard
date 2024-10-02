@@ -137,3 +137,8 @@ input:focus {
 .navigation span {
     font-size: 90%;
 }
+
+.error {
+    color: red;
+    font-size: 130%;
+}

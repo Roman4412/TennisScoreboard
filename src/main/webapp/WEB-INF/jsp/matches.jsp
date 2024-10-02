@@ -31,7 +31,10 @@
         <div class="navigation">
             <c:choose>
                 <c:when test="${totalPages == 0}">
-                    <p>Matches not found</p>
+                    <p class="message">Matches not found</p>
+                </c:when>
+                <c:when test="${not empty errorMessage}">
+                    <p class="error">${errorMessage}</p>
                 </c:when>
                 <c:when test="${pageNum == 1 && isLast}">
                     <button type="submit" name="page" disabled>prev</button>
