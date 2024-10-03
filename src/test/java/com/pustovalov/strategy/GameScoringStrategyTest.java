@@ -1,13 +1,9 @@
 package com.pustovalov.strategy;
 
-import com.pustovalov.dto.request.CreateMatchDto;
 import com.pustovalov.entity.Match;
+import com.pustovalov.entity.Player;
 import com.pustovalov.entity.PointUnits;
 import com.pustovalov.entity.Score;
-import com.pustovalov.service.OngoingMatchService;
-import com.pustovalov.util.HibernateUtil;
-import org.hibernate.Session;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,11 +12,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class GameScoringStrategyTest {
-
-    public static final String METHOD_REF_PREFIX = "com.pustovalov.strategy.GameScoringStrategyTest#";
-
-    //TODO after each method
     private static final String ZERO_PTS = "0";
 
     private static final String FIFTEEN_PTS = "15";
@@ -31,9 +26,9 @@ public class GameScoringStrategyTest {
 
     private static final String ADVANTAGE = "AD";
 
-    public long playerOneId;
+    private final long playerOneId = 1L;
 
-    public long playerTwoId;
+    private final long playerTwoId = 2L;
 
     private ScoringStrategy out;
 
@@ -50,28 +45,20 @@ public class GameScoringStrategyTest {
     }
 
     @BeforeEach
-    void init() {
-        OngoingMatchService ongoingMatchService = OngoingMatchService.getInstance();
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-
-        UUID uuid = ongoingMatchService.create(new CreateMatchDto("playerOneName", "playerTwoName"));
-        Match match = ongoingMatchService.getMatch(uuid).get();
-
-        playerOneId = match.getPlayerOne().getId();
-        playerTwoId = match.getPlayerTwo().getId();
+    void prepare() {
+        Player playerOne = new Player(playerOneId, "playerOneName");
+        Player playerTwo = new Player(playerTwoId, "playerTwoName");
+        Match match = new Match(playerOne, playerTwo, UUID.randomUUID());
 
         score = new Score(playerOneId, playerTwoId);
         score.setMatch(match);
         match.setScore(score);
 
-        session.getTransaction().commit();
-
         out = score.getScoringStrategy();
     }
 
     @ParameterizedTest
-    @MethodSource(METHOD_REF_PREFIX + "provideGameScoreVariants")
+    @MethodSource("provideGameScoreVariants")
     void countIfPlayerWinsPointThenHisScoreIncrementsAndOpponentScoreUnchanged(String playerOneInit,
             String playerTwoInit, String playerOneExpected, String playerTwoExpected) {
 
@@ -82,9 +69,8 @@ public class GameScoringStrategyTest {
 
         String playerOneActual = score.getPoint(playerOneId, PointUnits.GAME).getValue();
         String playerTwoActual = score.getPoint(playerTwoId, PointUnits.GAME).getValue();
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(playerOneExpected, playerOneActual, "Incorrect scoring by the playerOne"),
-                () -> Assertions.assertEquals(playerTwoExpected, playerTwoActual,
-                        "Incorrect scoring by the playerTwo"));
+        assertAll(() -> assertEquals(playerOneExpected, playerOneActual, "Incorrect scoring by the playerOne"),
+                () -> assertEquals(playerTwoExpected, playerTwoActual, "Incorrect scoring by the playerTwo"));
     }
+
 }
