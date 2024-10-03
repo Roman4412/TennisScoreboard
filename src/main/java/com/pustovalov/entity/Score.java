@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Setter
 public class Score {
 
-    private Map<Long, List<Point>> score;
+    private Map<Long, List<Point>> current;
 
     private Map<Long, List<Point>> result;
 
@@ -23,7 +23,7 @@ public class Score {
     private ScoringStrategy scoringStrategy;
 
     public Score(Long playerOneId, Long playerTwoId) {
-        score = new ConcurrentHashMap<>();
+        current = new ConcurrentHashMap<>();
         result = new ConcurrentHashMap<>();
 
         List<Point> init = new ArrayList<>();
@@ -32,15 +32,15 @@ public class Score {
         init.add(new Point(PointUnits.MATCH));
         init.add(new Point(PointUnits.TIEBREAK));
 
-        score.put(playerOneId, new ArrayList<>(init));
-        score.put(playerTwoId, new ArrayList<>(init));
+        current.put(playerOneId, new ArrayList<>(init));
+        current.put(playerTwoId, new ArrayList<>(init));
         result.put(playerOneId, new ArrayList<>());
         result.put(playerTwoId, new ArrayList<>());
         scoringStrategy = new GameScoringStrategy(this);
     }
 
     public Point getPoint(Long playerId, PointUnits type) {
-        List<Point> result = score.get(playerId).stream().filter(e -> e.getType().equals(type)).toList();
+        List<Point> result = current.get(playerId).stream().filter(e -> e.getType().equals(type)).toList();
 
         return result.get(result.size() - 1);
     }
@@ -61,7 +61,7 @@ public class Score {
         } else if (type == PointUnits.TIEBREAK) {
             point = new Point(value, PointUnits.TIEBREAK);
         }
-        score.get(playerId).add(point);
+        current.get(playerId).add(point);
     }
 
     public void resetScore(PointUnits type) {
