@@ -1,6 +1,8 @@
 package com.pustovalov.servlet;
 
 import com.pustovalov.service.MatchScoringService;
+import com.pustovalov.service.OngoingMatchService;
+import com.pustovalov.service.PersistenceMatchService;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -49,6 +51,7 @@ public class MatchScoringServlet extends HttpServlet {
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
-    matchScoringService = MatchScoringService.getInstance();
+    matchScoringService = MatchScoringService.getInstance(OngoingMatchService.getInstance(),
+            PersistenceMatchService.getInstance());
   }
 }
