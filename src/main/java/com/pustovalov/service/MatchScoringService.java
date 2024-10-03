@@ -28,12 +28,12 @@ public class MatchScoringService {
         mapper = MatchMapper.INSTANCE;
     }
 
-    public static MatchScoringService getInstance() {
+    public static MatchScoringService getInstance(OngoingMatchService ongoingMatchService,
+            PersistenceMatchService persistenceMatchService) {
         if (instance == null) {
             synchronized (MatchScoringService.class) {
                 if (instance == null) {
-                    instance = new MatchScoringService(OngoingMatchService.getInstance(),
-                            PersistenceMatchService.getInstance());
+                    instance = new MatchScoringService(ongoingMatchService, persistenceMatchService);
                 }
             }
         }
