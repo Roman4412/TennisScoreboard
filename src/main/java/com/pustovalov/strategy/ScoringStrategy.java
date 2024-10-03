@@ -8,11 +8,11 @@ import lombok.Setter;
 @Setter
 public abstract class ScoringStrategy {
 
-  protected final Score score;
+    protected final Score score;
 
-  public ScoringStrategy(Score score) {
-    this.score = score;
-  }
+    public ScoringStrategy(Score score) {
+        this.score = score;
+    }
 
-  public abstract void count(Long playerId);
+    public abstract void count(Long playerId);
 }

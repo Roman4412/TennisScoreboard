@@ -1,0 +1,168 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Roboto, serif;
+    color: #eaf0d8;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f4dc;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 90%;
+    width: 70%;
+    background-color: #7a7e80;
+    box-shadow: 6px 10px 30px #7a7e80;
+    border-radius: 15px;
+}
+
+.stats-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 20%;
+    width: 100%;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: stretch;
+    height: 15%;
+    width: 40%;
+}
+
+.game-stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: max-content;
+    width: 35%;
+    font-family: Roboto, serif;
+    font-size: 550%;
+    font-weight: bold;
+}
+
+.player-one, .player-two {
+    display: flex;
+    font-family: Roboto, serif;
+    font-size: 200%;
+    font-weight: bold;
+    width: 25%;
+
+}
+
+.player-one {
+    justify-content: end;
+}
+
+.player-two {
+    justify-content: start;
+}
+
+button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3%;
+    background-color: #b6e01d;
+    font-weight: bold;
+    font-size: 120%;
+    font-family: Roboto, serif;
+    color: #eaf0d8;
+    box-shadow: 3px 5px 15px #45531c;
+    border-radius: 5px;
+    border: none;
+}
+
+.button-point {
+    width: 100%;
+    height: 60%;
+}
+
+.button-save {
+    width: 52%;
+    height: 15%;
+}
+
+button:hover {
+    box-shadow: 1px 1px 10px #a4d315;
+}
+
+button:active {
+    background-color: #b5ea15;
+    box-shadow: 1px 1px 10px #a4d315;
+}
+
+.general-stats, .result-stats {
+    height: fit-content;
+    text-align: center;
+    width: fit-content;
+    border-spacing: 0;
+}
+
+th, td {
+    padding: 20px;
+}
+
+th {
+    padding: 20px 20px 5px 20px;
+    font-weight: bold;
+    font-size: 130%;
+}
+
+.td {
+    font-size: 120%;
+}
+
+p {
+    margin: 0;
+}
+
+.general-stats .A1, .general-stats .B1, .general-stats .C1, .general-stats .A2, .general-stats .B2, .general-stats .C2 {
+    border-bottom: 2px solid #7a7e80;
+}
+
+.general-stats .A1, .general-stats .A2, .general-stats .A3, .general-stats .B1, .general-stats .B2, .general-stats .B3 {
+    border-right: 2px solid #7a7e80;
+}
+
+.general-stats .A2, .general-stats .A3, .general-stats .B2, .general-stats .B3, .general-stats .C2, .general-stats .C3 {
+    background-color: #858a8a;
+}
+
+.result-stats, .stats-footer {
+    background-color: #858a8a;
+}
+
+.result-stats .A1, .result-stats .A2 {
+    font-size: 180%;
+}
+
+.result-stats .B1, .result-stats .B2 {
+    font-size: 550%;
+    font-weight: bold;
+}
+
+.result-stats .A1, .result-stats .A2 {
+    font-size: 200%;
+}
+
+.result-stats .C {
+    font-size: 200%;
+}
+
+.result-stats td {
+    border: 2px solid #7a7e80;
+}
+

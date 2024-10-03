@@ -6,17 +6,4 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
-    
-    <error-page>
-        <error-code>500</error-code>
-        <location>/resources/html/error500.html</location>
-    </error-page>
-    <error-page>
-        <error-code>503</error-code>
-        <location>/resources/html/error503.html</location>
-    </error-page>
-    <error-page>
-        <error-code>404</error-code>
-        <location>/resources/html/error404.html</location>
-    </error-page>
 </web-app>
