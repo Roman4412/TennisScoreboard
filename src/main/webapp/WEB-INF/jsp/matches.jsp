@@ -23,8 +23,8 @@
         <div class="matches-page">
             <c:forEach var="m" items="${resp.matches()}">
                 <div class="row">
-                    <p>${m.playerOne.name}</p>
-                    <p>${m.playerTwo.name}</p>
+                    <p class="${m.playerOne.name == m.winner.name? "winner" : ""}">${m.playerOne.name}</p>
+                    <p class="${m.playerTwo.name == m.winner.name? "winner" : ""}">${m.playerTwo.name}</p>
                 </div>
             </c:forEach>
         </div>
