@@ -35,14 +35,14 @@ public class HibernateMatchDao implements MatchDao {
     }
 
     public List<Match> findAll(int offset, int limit) {
-        String queryString = "select m from Match m order by m.id desc";
+        String queryString = "select m from Match m join fetch m.playerOne join fetch m.playerTwo order by m.id desc";
         return sessionFactory.getCurrentSession().createQuery(queryString, Match.class).setMaxResults(limit)
                 .setFirstResult(offset).list();
     }
 
     @Override
     public List<Match> findByPlayerName(int offset, int limit, String name) {
-        String queryString = "select m from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name) order by m.id desc";
+        String queryString = "select m from Match m join fetch m.playerOne join fetch m.playerTwo where lower(m .playerOne.name) " + "like lower(:name) or lower(m.playerTwo.name) like lower(:name) order by m.id desc";
         return sessionFactory.getCurrentSession().createQuery(queryString, Match.class).setParameter("name",
                 "%" + name + "%").setMaxResults(limit).setFirstResult(offset).list();
     }
@@ -53,14 +53,14 @@ public class HibernateMatchDao implements MatchDao {
     }
 
     public Long getRowsAmount(String name) {
-        String queryString = "select count(*) from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) like lower(:name)";
+        String queryString = "select count(*) from Match m where lower(playerOne.name) like lower(:name) or lower(playerTwo.name) " + "like lower(:name)";
         return sessionFactory.getCurrentSession().createQuery(queryString, Long.class).setParameter("name",
                 "%" + name + "%").uniqueResult();
     }
 
     public boolean isExist(UUID matchId) {
         String queryString = "select 1 from Match where externalId =:id";
-        return sessionFactory.getCurrentSession().createQuery(queryString).setParameter("id", matchId)
+        return sessionFactory.getCurrentSession().createQuery(queryString, boolean.class).setParameter("id", matchId)
                        .uniqueResult() != null;
     }
 
